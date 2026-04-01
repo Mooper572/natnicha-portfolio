@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import { motion, useAnimationFrame, useMotionValue, AnimatePresence, type Variants } from "framer-motion";
 import Image from "next/image";
 
 type FilterType = "ALL" | "INTERNSHIP" | "PROJECTS";
@@ -117,8 +117,25 @@ const zoomConfig = {
   position: "object-[center_100%]",
 };
 
+// Variants สำหรับ card แต่ละใบ (ใช้ stagger ผ่าน parent)
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (custom: { index: number; baseDelay: number }) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+      delay: custom.baseDelay + custom.index * 0.07,
+    },
+  }),
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+};
+
 export default function Hero() {
   const [filter, setFilter] = useState<FilterType>("ALL");
+  const [filterKey, setFilterKey] = useState(0);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
@@ -131,16 +148,20 @@ export default function Hero() {
   const filtered =
     filter === "ALL" ? projects : projects.filter((p) => p.category === filter);
 
+  // เมื่อกด filter ให้ reset x และเพิ่ม key เพื่อ re-animate cards
+  const handleFilterChange = (f: FilterType) => {
+    setFilter(f);
+    setFilterKey((k) => k + 1);
+    setIsFirstLoad(false);
+    x.set(0);
+  };
+
   useEffect(() => {
     if (rowRef.current) {
       const fullWidth = rowRef.current.scrollWidth;
       setWidth(filter === "ALL" ? fullWidth / 2 : fullWidth);
     }
   }, [filtered, filter]);
-
-  useEffect(() => {
-    x.set(0);
-  }, [filter]);
 
   useAnimationFrame((_, delta) => {
     if (isDragging || filter !== "ALL") return;
@@ -155,18 +176,21 @@ export default function Hero() {
     x.set(next);
   });
 
+  // cards ที่จะ render (ALL = duplicate สำหรับ loop)
+  const displayedProjects = filter === "ALL" ? [...filtered, ...filtered] : filtered;
+
   return (
     <section id="home" className="pt-16 pb-24 max-w-[1400px] mx-auto px-10">
-      {/* Profile Photo */}
+      {/* Profile Photo — fade + scale เหมือนเดิม */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="mb-8"
       >
         <div className="relative w-[180px] h-[180px] rounded-full overflow-hidden">
           <Image
-            src="/profile.jpg"
+            src="/profile.png"
             alt="Natnicha Inkongngam profile photo"
             fill
             className="object-cover scale-125 object-[center_90%]"
@@ -175,7 +199,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* Heading */}
+      {/* Heading — fade + slide up */}
       <motion.h1
         className="font-code text-[48px] text-[#2A2A28] font-medium leading-[1.15] max-w-[1100px] mb-5"
         initial={{ opacity: 0, y: 40 }}
@@ -186,7 +210,7 @@ export default function Hero() {
         developer
       </motion.h1>
 
-      {/* Description */}
+      {/* Description — fade + slide up */}
       <motion.p
         className="font-manrope text-gray-500 text-[16px] leading-relaxed max-w-[1200px] mb-8"
         initial={{ opacity: 0, y: 20 }}
@@ -199,17 +223,22 @@ export default function Hero() {
         applications through code.
       </motion.p>
 
-      {/* Filter Buttons */}
-      <motion.div className="flex gap-3 mb-8">
+      {/* Filter Buttons — fade + slide up พร้อม stagger */}
+      <motion.div
+        className="flex gap-3 mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         {(["ALL", "INTERNSHIP", "PROJECTS"] as FilterType[]).map((f) => (
           <button
             key={f}
-            onClick={() => setFilter(f)}
+            onClick={() => handleFilterChange(f)}
             className={
-              "px-5 py-2 text-xs tracking-widest cursor-pointer " +
+              "px-5 py-2 text-xs tracking-widest cursor-pointer transition-all duration-200 " +
               (filter === f
                 ? "bg-black text-white border border-black"
-                : "text-gray-500 border border-gray-300")
+                : "text-gray-500 border border-gray-300 hover:border-gray-500 hover:text-gray-700")
             }
           >
             [{f}]
@@ -218,34 +247,41 @@ export default function Hero() {
       </motion.div>
 
       {/* Slider */}
-      <div ref={containerRef} className="overflow-hidden pb-4">
-        <motion.div
-          ref={rowRef}
-          className="flex gap-5 cursor-grab active:cursor-grabbing"
-          style={{ x }}
-          drag="x"
-          dragConstraints={
-            filter === "ALL"
-              ? { left: -width, right: 0 }
-              : {
-                  left: -Math.max(
-                    width - (containerRef.current?.offsetWidth || 0),
-                    0,
-                  ),
-                  right: 0,
-                }
-          }
-          dragElastic={0.1}
-          dragMomentum={true}
-          onDragStart={() => setIsDragging(true)}
-          onDragEnd={() => setIsDragging(false)}
-          onMouseEnter={() => setSpeed(30)}
-          onMouseLeave={() => setSpeed(60)}
-        >
-          {(filter === "ALL" ? [...filtered, ...filtered] : filtered).map(
-            (project, index) => (
-              <div
-                key={index}
+      <div>
+        <div ref={containerRef} className="overflow-hidden pb-4">
+          <motion.div
+            ref={rowRef}
+            key={filterKey} // เปลี่ยน key ทุกครั้งที่ filter เปลี่ยน เพื่อ remount + re-animate
+            className="flex gap-5 cursor-grab active:cursor-grabbing"
+            style={{ x }}
+            drag="x"
+            dragConstraints={
+              filter === "ALL"
+                ? { left: -width, right: 0 }
+                : {
+                    left: -Math.max(
+                      width - (containerRef.current?.offsetWidth || 0),
+                      0,
+                    ),
+                    right: 0,
+                  }
+            }
+            dragElastic={0.1}
+            dragMomentum={true}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={() => setIsDragging(false)}
+            onMouseEnter={() => setSpeed(30)}
+            onMouseLeave={() => setSpeed(60)}
+          >
+            {displayedProjects.map((project, index) => {
+              const cardIndex = filter === "ALL" ? Math.min(index, filtered.length - 1) : index;
+              return (
+              <motion.div
+                key={`${filterKey}-${index}`}
+                custom={{ index: cardIndex, baseDelay: isFirstLoad ? 0.4 : 0 }}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
                 className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[420px]"
               >
                 <div className="relative w-full h-[280px]">
@@ -259,10 +295,11 @@ export default function Hero() {
                     draggable={false}
                   />
                 </div>
-              </div>
-            ),
-          )}
-        </motion.div>
+              </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </div>
     </section>
   );

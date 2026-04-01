@@ -13,11 +13,11 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <Hero />
-      <CoreCompetencies />
-      <FeaturedWork />
-      <DesignApproach />
-      <Collaborate />
+      <div id="home"><Hero /></div>
+      <div id="projects"><CoreCompetencies /></div>
+      <div id="intern"><FeaturedWork /></div>
+      <div id="about"><DesignApproach /></div>
+      <Collaborate /> {/* มี id="contact" อยู่แล้วใน component */}
     </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { type Variants } from "framer-motion";
 
 const competencies = [
   {
@@ -28,31 +29,83 @@ const competencies = [
   },
 ];
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+      delay,
+    },
+  }),
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+      delay: i * 0.1,
+    },
+  }),
+};
+
 export default function CoreCompetencies() {
   return (
     <section id="about" className="bg-gray-100 pt-24 pb-28">
-      <div className="mx-auto px-6" style={{ maxWidth: '1250px' }}>
+      <div className="mx-auto px-6" style={{ maxWidth: "1250px" }}>
 
         {/* Header */}
         <div className="mb-14 text-center">
-          <h2 className="text-[36px] font-semibold font-code">Core Competencies</h2>
-          <p className="text-gray-500 text-[15px] mt-3 max-w-xl mx-auto leading-relaxed">
+          <motion.h2
+            className="text-[36px] font-semibold font-code"
+            variants={fadeUp}
+            custom={0}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            Core Competencies
+          </motion.h2>
+          <motion.p
+            className="text-gray-500 text-[15px] mt-3 max-w-xl mx-auto leading-relaxed"
+            variants={fadeUp}
+            custom={0.1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+          >
             Combining technical skills with design thinking to create comprehensive
             digital solutions that are both beautiful and functional.
-          </p>
+          </motion.p>
         </div>
 
         {/* Cards */}
-        <div className="border border-[#C6C6C6]" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+        <motion.div
+          className="border border-[#C6C6C6]"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
           {competencies.map((c, i) => (
             <motion.div
               key={c.num}
+              custom={i}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
               className="p-7 flex flex-col gap-4"
-              style={{ borderRight: i < competencies.length - 1 ? '1px solid #C6C6C6' : 'none' }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              style={{
+                borderRight: i < competencies.length - 1 ? "1px solid #C6C6C6" : "none",
+              }}
             >
               <span className="text-xs text-gray-400 tracking-widest heading-mono">
                 {c.num}
@@ -75,7 +128,7 @@ export default function CoreCompetencies() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>

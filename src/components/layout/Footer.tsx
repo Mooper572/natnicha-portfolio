@@ -1,33 +1,52 @@
+"use client";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { SiLine } from "react-icons/si";
 
+const footerLinks = [
+  { label: "[HOME]", href: "#home" },
+  { label: "[PROJECTS]", href: "#projects" },
+  { label: "[INTERNSHIP]", href: "#intern" },
+  { label: "[ABOUT]", href: "#about" },
+  { label: "[CONTACT]", href: "#contact" },
+];
+
 export default function Footer() {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (href === "#home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <footer className="bg-[#2a2a28] text-gray-400">
       <div style={{ maxWidth: "1400px" }} className="mx-auto px-10 py-8">
         {/* Top row */}
         <div className="flex justify-between items-center border-b border-gray-700 pb-8">
           {/* Logo */}
-          <p className="text-[16px] font-semibold tracking-wide text-white font-manrope">
+          <a
+            href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
+            style={{ textDecoration: "none" }}
+            className="text-[16px] font-semibold tracking-wide text-white font-manrope"
+          >
             NATNICHA.MO
-          </p>
+          </a>
 
           {/* Nav links */}
           <div className="flex gap-10">
-            {[
-              "[HOME]",
-              "[PROJECTS]",
-              "[INTERNSHIP]",
-              "[ABOUT]",
-              "[CONTACT]",
-            ].map((link) => (
+            {footerLinks.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 style={{ color: "#9ca3af", textDecoration: "none" }}
                 className="text-xs tracking-[0.1em] transition-all duration-300 font-grotesk relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-[#9ca3af] after:transition-all after:duration-300 hover:text-white hover:after:w-full"
               >
-                {link}
+                {link.label}
               </a>
             ))}
           </div>
