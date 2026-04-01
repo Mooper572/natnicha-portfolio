@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Manrope:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-manrope {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.font-grotesk {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.font-code {
+  font-family: 'Fira Code', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #171717;
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: -0.01em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+nav {
+  background-color: #ffffff !important;
+}
+
+.heading-mono {
+  font-family: 'Space Mono', monospace !important;
+}
+
+@keyframes radarWave {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.radar-modern::before,
+.radar-modern::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+
+  /* 🔥 ทำให้เห็นชัดขึ้น */
+  border: 2px solid rgba(34, 197, 94, 0.5);
+  
+  animation: radarWave 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.radar-modern::after {
+  animation-delay: 1.8s;
+}
+
+/* 🔥 core ให้เด่นขึ้น */
+.radar-core {
+  box-shadow: 
+    0 0 6px rgba(34, 197, 94, 0.9),
+    0 0 14px rgba(34, 197, 94, 0.5);
+}
