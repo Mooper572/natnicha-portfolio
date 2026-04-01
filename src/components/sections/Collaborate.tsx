@@ -121,31 +121,44 @@ export default function Collaborate() {
               <input type="text" name="company" style={{ display: "none" }} />
 
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <input
-                  type="text"
-                  name="user_name"
-                  placeholder="Enter name"
-                  required
-                  className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px]"
-                />
-                <input
-                  type="email"
-                  name="user_email"
-                  placeholder="Email@example.com"
-                  required
-                  className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px]"
-                />
-              </div>
+  <div>
+    <label className="text-[10px] tracking-widest text-[#777777] font-semibold font-manrope mb-1.5 block">
+      FULL NAME
+    </label>
+    <input
+      type="text"
+      name="user_name"
+      placeholder="Enter name"
+      required
+      className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px] text-gray-700 placeholder-gray-300 outline-none focus:border-gray-400 transition-colors"
+    />
+  </div>
+  <div>
+    <label className="text-[10px] tracking-widest text-[#777777] font-semibold font-manrope mb-1.5 block">
+      EMAIL ADDRESS
+    </label>
+    <input
+      type="email"
+      name="user_email"
+      placeholder="Email@example.com"
+      required
+      className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px] text-gray-700 placeholder-gray-300 outline-none focus:border-gray-400 transition-colors"
+    />
+  </div>
+</div>
 
-              <div className="mb-6">
-                <textarea
-                  name="message"
-                  placeholder="Tell me about your inquiry..."
-                  rows={8}
-                  required
-                  className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px]"
-                />
-              </div>
+<div className="mb-6">
+  <label className="text-[10px] tracking-widest text-[#777777] font-semibold font-manrope mb-1.5 block">
+    MESSAGE
+  </label>
+  <textarea
+    name="message"
+    placeholder="Tell me about your inquiry..."
+    rows={8}
+    required
+    className="w-full border border-[#d1d5db] px-3 py-2.5 text-[13px] text-gray-700 placeholder-gray-300 outline-none focus:border-gray-400 transition-colors resize-none"
+  />
+</div>
 
               <button
                 type="submit"

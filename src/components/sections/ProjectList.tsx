@@ -1,0 +1,265 @@
+"use client";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import Image from "next/image";
+
+type FilterType =
+  | "ALL"
+  | "UX/UI DESIGNER"
+  | "FULL-STACK DEVELOPER"
+  | "FRONT-END DEVELOPER";
+
+const projects = [
+  {
+    id: 1,
+    title: "Zoo Interactive Map",
+    description:
+      "An interactive map web application designed with a strong focus on UX/UI and full-stack development. The system provides GPS navigation, location filtering, and real-time updates to enhance user experience and accessibility. Designed in Figma and developed as a responsive application, it bridges intuitive design with functional system implementation.",
+    image: "/p1.png",
+    imageScale: true,
+    techStack: ["FIGMA", "JAVASCRIPT", "NODE.JS", "MYSQL", "GOOGLE MAPS API"],
+    year: "2025",
+    roles: ["UX/UI Designer", "Full-stack Developer"],
+    filters: ["UX/UI DESIGNER", "FULL-STACK DEVELOPER"] as FilterType[],
+    href: "#",
+  },
+  {
+    id: 2,
+    title: "Hertz Rental Application",
+    description:
+      "A mobile-first car rental application designed with a user-centered approach, focusing on UX/UI and functionality. The system supports browsing, booking, and rental management through intuitive user flows and a clean interface design. Implemented with Flutter, it provides a responsive and user-friendly experience.",
+    image: "/p10.png",
+    imageScale: false,
+    techStack: ["FIGMA", "FLUTTER"],
+    year: "2024",
+    roles: ["UX/UI Designer", "Front-end Developer"],
+    filters: ["UX/UI DESIGNER", "FRONT-END DEVELOPER"] as FilterType[],
+    href: "#",
+  },
+  {
+    id: 3,
+    title: "Just Match Website",
+    description:
+      "A movie rental web application designed to support multiple user roles with a focus on UX/UI and functionality. The system enables browsing, search, and content management through structured user flows and clear interface design. Developed with frontend and backend integration, it provides a responsive and user-friendly experience.",
+    image: "/p12.png",
+    imageScale: true,
+    techStack: ["FIGMA", "JAVASCRIPT", "NODE.JS", "MYSQL"],
+    year: "2023",
+    roles: ["UX/UI Designer", "Full-stack Developer"],
+    filters: ["UX/UI DESIGNER", "FULL-STACK DEVELOPER"] as FilterType[],
+    href: "#",
+  },
+  {
+    id: 4,
+    title: "Jum Pop Application",
+    description:
+      "A mystery box (gacha) application designed in Figma, focusing on UX/UI and a mobile-first user experience. The design includes e-commerce workflows such as ordering and shipping, with clearly defined user flows. It also features structured admin interfaces for product, payment, and order management across different roles.",
+    image: "/p13.png",
+    imageScale: false,
+    techStack: ["FIGMA"],
+    year: "2024",
+    roles: ["UX/UI Designer"],
+    filters: ["UX/UI DESIGNER"] as FilterType[],
+    href: "#",
+  },
+];
+
+const filters: FilterType[] = [
+  "ALL",
+  "UX/UI DESIGNER",
+  "FULL-STACK DEVELOPER",
+  "FRONT-END DEVELOPER",
+];
+
+const dashedBorder: React.CSSProperties = {
+  backgroundImage: `
+    linear-gradient(to right, #C6C6C6 50%, transparent 50%),
+    linear-gradient(to right, #C6C6C6 50%, transparent 50%),
+    linear-gradient(to bottom, #C6C6C6 50%, transparent 50%),
+    linear-gradient(to bottom, #C6C6C6 50%, transparent 50%)
+  `,
+  backgroundSize: "8px 1px, 8px 1px, 1px 8px, 1px 8px",
+  backgroundPosition: "top, bottom, left, right",
+  backgroundRepeat: "repeat-x, repeat-x, repeat-y, repeat-y",
+};
+
+const cardVariantsInitial: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      delay: 0.4 + i * 0.08,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+};
+
+const cardVariantsScroll: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.15 + i * 0.05,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+};
+
+export default function ProjectList() {
+  const [active, setActive] = useState<FilterType>("ALL");
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsFirstLoad(false), 900);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const filtered =
+    active === "ALL"
+      ? projects
+      : projects.filter((p) => p.filters.includes(active));
+
+  return (
+    <section className="max-w-[1400px] mx-auto px-10 pb-16">
+      {/* Filter Buttons */}
+      <motion.div
+        className="flex gap-3 mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {filters.map((f) => (
+          <button
+            key={f}
+            onClick={() => setActive(f)}
+            className={
+              "px-5 py-2 text-xs tracking-widest cursor-pointer transition-all duration-200 font-grotesk " +
+              (active === f
+                ? "bg-black text-white border border-black"
+                : "text-gray-500 border border-gray-300 hover:border-gray-500 hover:text-gray-700")
+            }
+          >
+            [{f}]
+          </button>
+        ))}
+      </motion.div>
+
+      {/* Project Cards */}
+      <div className="flex flex-col gap-6" key={active}>
+        <AnimatePresence mode="popLayout">
+          {filtered.map((project, i) => (
+            <motion.div
+              key={project.id}
+              custom={i}
+              variants={isFirstLoad ? cardVariantsInitial : cardVariantsScroll}
+              initial="hidden"
+              whileInView="visible"
+              exit="exit"
+              viewport={{ once: true, amount: 0.05 }}
+              className="flex gap-0 overflow-hidden bg-white"
+              style={dashedBorder}
+            >
+              {/* Image */}
+              <div className="relative w-[620px] flex-shrink-0 self-stretch overflow-hidden group">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className={`object-cover transition-transform duration-500 ease-[0.22,1,0.36,1] ${
+                    project.imageScale
+                      ? "scale-110 object-[center_30%] group-hover:scale-[1.15]"
+                      : "group-hover:scale-105"
+                  }`}
+                />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.15)_100%)] opacity-0 group-hover:opacity-100 transition-all duration-500" />
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col justify-between p-10 flex-1">
+                <div>
+                  <h2 className="font-code text-[32px] font-medium text-[#2A2A28] mb-4 leading-tight">
+                    {project.title}
+                  </h2>
+                  <p className="font-manrope text-gray-500 text-[14px] leading-relaxed mb-6 max-w-[520px]">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="mb-6">
+                    <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-2">
+                      TECH STACK
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      {project.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-[10px] tracking-widest text-gray-500 border border-gray-300 px-3 py-1 font-grotesk"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t border-gray-200 mb-6" />
+
+                <div className="flex items-end justify-between">
+                  <div className="flex gap-20">
+                    <div>
+                      <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-1">
+                        YEAR
+                      </p>
+                      <p className="font-manrope text-[14px] text-[#2A2A28] font-medium">
+                        {project.year}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-1">
+                        ROLE
+                      </p>
+                      <p className="font-manrope text-[14px] text-[#2A2A28] font-medium">
+                        {project.roles.join(", ")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <motion.a
+                    href={project.href}
+                    className="flex items-center gap-3 border border-gray-300 px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300"
+                    whileHover="hovered"
+                  >
+                    SEE
+                    <motion.span
+                      className="inline-block"
+                      variants={{ hovered: { x: 4 } }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      →
+                    </motion.span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Back to top */}
+      <div className="flex justify-center mt-16">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="text-[11px] tracking-[0.15em] text-gray-400 hover:text-gray-700 transition-colors font-grotesk"
+        >
+          ↑ BACK TO TOP
+        </button>
+      </div>
+    </section>
+  );
+}
