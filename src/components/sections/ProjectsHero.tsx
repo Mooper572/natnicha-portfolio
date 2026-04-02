@@ -23,13 +23,14 @@ export default function ProjectsHero() {
       </motion.h1>
 
       <motion.p
-        className="font-manrope text-gray-500 text-[16px] leading-relaxed max-w-[500px]"
+        className="font-manrope text-gray-500 text-[16px] leading-relaxed max-w-[600px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        A selection of projects developed during my academic journey, showcasing
-        my work in UX/UI design and full-stack development.
+        A selection of projects developed throughout my academic journey,
+        showcasing my work across UX/UI design, front-end, and full-stack
+        development.
       </motion.p>
     </section>
   );

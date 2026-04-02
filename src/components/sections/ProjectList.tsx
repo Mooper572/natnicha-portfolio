@@ -2,74 +2,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Image from "next/image";
-
-type FilterType =
-  | "ALL"
-  | "UX/UI DESIGNER"
-  | "FULL-STACK DEVELOPER"
-  | "FRONT-END DEVELOPER";
-
-const projects = [
-  {
-    id: 1,
-    title: "Zoo Interactive Map",
-    description:
-      "An interactive map web application designed with a strong focus on UX/UI and full-stack development. The system provides GPS navigation, location filtering, and real-time updates to enhance user experience and accessibility. Designed in Figma and developed as a responsive application, it bridges intuitive design with functional system implementation.",
-    image: "/p1.png",
-    imageScale: true,
-    techStack: ["FIGMA", "JAVASCRIPT", "NODE.JS", "MYSQL", "GOOGLE MAPS API"],
-    year: "2025",
-    roles: ["UX/UI Designer", "Full-stack Developer"],
-    filters: ["UX/UI DESIGNER", "FULL-STACK DEVELOPER"] as FilterType[],
-    href: "#",
-  },
-  {
-    id: 2,
-    title: "Hertz Rental Application",
-    description:
-      "A mobile-first car rental application designed with a user-centered approach, focusing on UX/UI and functionality. The system supports browsing, booking, and rental management through intuitive user flows and a clean interface design. Implemented with Flutter, it provides a responsive and user-friendly experience.",
-    image: "/p10.png",
-    imageScale: false,
-    techStack: ["FIGMA", "FLUTTER"],
-    year: "2024",
-    roles: ["UX/UI Designer", "Front-end Developer"],
-    filters: ["UX/UI DESIGNER", "FRONT-END DEVELOPER"] as FilterType[],
-    href: "#",
-  },
-  {
-    id: 3,
-    title: "Just Match Website",
-    description:
-      "A movie rental web application designed to support multiple user roles with a focus on UX/UI and functionality. The system enables browsing, search, and content management through structured user flows and clear interface design. Developed with frontend and backend integration, it provides a responsive and user-friendly experience.",
-    image: "/p12.png",
-    imageScale: true,
-    techStack: ["FIGMA", "JAVASCRIPT", "NODE.JS", "MYSQL"],
-    year: "2023",
-    roles: ["UX/UI Designer", "Full-stack Developer"],
-    filters: ["UX/UI DESIGNER", "FULL-STACK DEVELOPER"] as FilterType[],
-    href: "#",
-  },
-  {
-    id: 4,
-    title: "Jum Pop Application",
-    description:
-      "A mystery box (gacha) application designed in Figma, focusing on UX/UI and a mobile-first user experience. The design includes e-commerce workflows such as ordering and shipping, with clearly defined user flows. It also features structured admin interfaces for product, payment, and order management across different roles.",
-    image: "/p13.png",
-    imageScale: false,
-    techStack: ["FIGMA"],
-    year: "2024",
-    roles: ["UX/UI Designer"],
-    filters: ["UX/UI DESIGNER"] as FilterType[],
-    href: "#",
-  },
-];
-
-const filters: FilterType[] = [
-  "ALL",
-  "UX/UI DESIGNER",
-  "FULL-STACK DEVELOPER",
-  "FRONT-END DEVELOPER",
-];
+import Link from "next/link";
+import { Project, FilterType } from "@/lib/types";
 
 const dashedBorder: React.CSSProperties = {
   backgroundImage: `
@@ -111,8 +45,15 @@ const cardVariantsScroll: Variants = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
 };
 
-export default function ProjectList() {
-  const [active, setActive] = useState<FilterType>("ALL");
+export default function ProjectList({
+  data,
+  basePath = "/projects",
+}: {
+  data: Project[];
+  basePath?: string;
+}) {
+  // ✅ เปลี่ยน type ให้ flexible
+  const [active, setActive] = useState<string>("ALL");
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
@@ -120,10 +61,16 @@ export default function ProjectList() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ✅ dynamic filters จาก data จริง
+  const roleFilters = [
+    "ALL",
+    ...Array.from(new Set(data.flatMap((p) => p.filters))),
+  ];
+
   const filtered =
     active === "ALL"
-      ? projects
-      : projects.filter((p) => p.filters.includes(active));
+      ? data
+      : data.filter((p) => p.filters.includes(active as FilterType));
 
   return (
     <section className="max-w-[1400px] mx-auto px-10 pb-16">
@@ -134,7 +81,7 @@ export default function ProjectList() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
       >
-        {filters.map((f) => (
+        {roleFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActive(f)}
@@ -199,7 +146,7 @@ export default function ProjectList() {
                       {project.techStack.map((tech) => (
                         <span
                           key={tech}
-                          className="text-[10px] tracking-widest text-gray-500 border border-gray-300 px-3 py-1 font-grotesk"
+                          className="text-[10px] tracking-widest text-gray-500 border border-gray-300 px-3 py-1 font-grotesk uppercase"
                         >
                           {tech}
                         </span>
@@ -230,20 +177,24 @@ export default function ProjectList() {
                     </div>
                   </div>
 
-                  <motion.a
-                    href={project.href}
-                    className="flex items-center gap-3 border border-gray-300 px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300"
-                    whileHover="hovered"
-                  >
-                    SEE
-                    <motion.span
-                      className="inline-block"
-                      variants={{ hovered: { x: 4 } }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  <Link href={`${basePath}/${project.slug}`}>
+                    <motion.div
+                      className="flex items-center gap-3 border border-gray-300 px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-pointer"
+                      whileHover="hovered"
                     >
-                      →
-                    </motion.span>
-                  </motion.a>
+                      SEE
+                      <motion.span
+                        className="inline-block"
+                        variants={{ hovered: { x: 4 } }}
+                        transition={{
+                          duration: 0.3,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        →
+                      </motion.span>
+                    </motion.div>
+                  </Link>
                 </div>
               </div>
             </motion.div>

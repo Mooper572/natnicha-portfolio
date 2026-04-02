@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 const navLinks = [
   { label: "[HOME]", href: "/", section: "#home" },
   { label: "[PROJECTS]", href: "/projects", section: null },
-  { label: "[INTERNSHIP]", href: "/", section: "#intern" },
+  { label: "[INTERNSHIP]", href: "/internship", section: null }, // ✅ แก้ตรงนี้
   { label: "[ABOUT]", href: "/about", section: null },
   { label: "[CONTACT]", href: "/", section: "#contact" },
 ];
@@ -18,7 +18,6 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    // reset เมื่อ navigate ใหม่
     lastY.current = 0;
     setVisible(true);
   }, [pathname]);
@@ -41,6 +40,7 @@ export default function Navbar() {
     section: string | null
   ) => {
     e.preventDefault();
+
     if (section) {
       if (pathname !== "/") {
         router.push(`/${section}`);
@@ -54,6 +54,7 @@ export default function Navbar() {
       }
       return;
     }
+
     router.push(href);
   };
 
@@ -63,7 +64,8 @@ export default function Navbar() {
       style={{
         transform: visible ? "translateY(0)" : "translateY(-100%)",
         transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-        backgroundImage: "linear-gradient(to right, #C6C6C6 50%, transparent 50%)",
+        backgroundImage:
+          "linear-gradient(to right, #C6C6C6 50%, transparent 50%)",
         backgroundSize: "8px 1px",
         backgroundRepeat: "repeat-x",
         backgroundPosition: "bottom",

@@ -1,6 +1,12 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { motion, useAnimationFrame, useMotionValue, AnimatePresence, type Variants } from "framer-motion";
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  AnimatePresence,
+  type Variants,
+} from "framer-motion";
 import Image from "next/image";
 
 type FilterType = "ALL" | "INTERNSHIP" | "PROJECTS";
@@ -177,7 +183,8 @@ export default function Hero() {
   });
 
   // cards ที่จะ render (ALL = duplicate สำหรับ loop)
-  const displayedProjects = filter === "ALL" ? [...filtered, ...filtered] : filtered;
+  const displayedProjects =
+    filter === "ALL" ? [...filtered, ...filtered] : filtered;
 
   return (
     <section id="home" className="pt-16 pb-24 max-w-[1400px] mx-auto px-10">
@@ -217,10 +224,11 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        A Computer Engineering student passionate about UX/UI design, focused on
-        creating intuitive and user-centered digital experiences. I enjoy
-        designing clear user flows and turning ideas into functional, responsive
-        applications through code.
+        This website is a personal project that I designed and developed from
+        scratch to showcase my work and experiences across UX/UI design and
+        full-stack development. It reflects my ability to design intuitive user
+        experiences, build scalable interfaces, and transform ideas into
+        functional, responsive applications.
       </motion.p>
 
       {/* Filter Buttons — fade + slide up พร้อม stagger */}
@@ -274,28 +282,32 @@ export default function Hero() {
             onMouseLeave={() => setSpeed(60)}
           >
             {displayedProjects.map((project, index) => {
-              const cardIndex = filter === "ALL" ? Math.min(index, filtered.length - 1) : index;
+              const cardIndex =
+                filter === "ALL" ? Math.min(index, filtered.length - 1) : index;
               return (
-              <motion.div
-                key={`${filterKey}-${index}`}
-                custom={{ index: cardIndex, baseDelay: isFirstLoad ? 0.4 : 0 }}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[420px]"
-              >
-                <div className="relative w-full h-[280px]">
-                  <Image
-                    src={project.src}
-                    alt={project.alt}
-                    fill
-                    className={`object-cover pointer-events-none select-none ${
-                      project.zoom ? zoomConfig.zoom : ""
-                    } ${project.zoom ? "translate-y-10" : ""}`}
-                    draggable={false}
-                  />
-                </div>
-              </motion.div>
+                <motion.div
+                  key={`${filterKey}-${index}`}
+                  custom={{
+                    index: cardIndex,
+                    baseDelay: isFirstLoad ? 0.4 : 0,
+                  }}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[420px]"
+                >
+                  <div className="relative w-full h-[280px]">
+                    <Image
+                      src={project.src}
+                      alt={project.alt}
+                      fill
+                      className={`object-cover pointer-events-none select-none ${
+                        project.zoom ? zoomConfig.zoom : ""
+                      } ${project.zoom ? "translate-y-10" : ""}`}
+                      draggable={false}
+                    />
+                  </div>
+                </motion.div>
               );
             })}
           </motion.div>

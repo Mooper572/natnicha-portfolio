@@ -1,24 +1,42 @@
 "use client";
+import { usePathname, useRouter } from "next/navigation";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { SiLine } from "react-icons/si";
 
 const footerLinks = [
-  { label: "[HOME]", href: "#home" },
-  { label: "[PROJECTS]", href: "#projects" },
-  { label: "[INTERNSHIP]", href: "#intern" },
-  { label: "[ABOUT]", href: "#about" },
-  { label: "[CONTACT]", href: "#contact" },
+  { label: "[HOME]", href: "/", section: "#home" },
+  { label: "[PROJECTS]", href: "/projects", section: null },
+  { label: "[INTERNSHIP]", href: "/internship", section: null },
+  { label: "[ABOUT]", href: "/about", section: null },
+  { label: "[CONTACT]", href: "/", section: "#contact" },
 ];
 
 export default function Footer() {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    section: string | null
+  ) => {
     e.preventDefault();
-    if (href === "#home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (section) {
+      if (pathname !== "/") {
+        router.push(`/${section}`);
+      } else {
+        if (section === "#home") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          const el = document.querySelector(section);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
       return;
     }
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+
+    router.push(href);
   };
 
   return (
@@ -28,8 +46,8 @@ export default function Footer() {
         <div className="flex justify-between items-center border-b border-gray-700 pb-8">
           {/* Logo */}
           <a
-            href="#home"
-            onClick={(e) => handleNavClick(e, "#home")}
+            href="/"
+            onClick={(e) => handleNavClick(e, "/", "#home")}
             style={{ textDecoration: "none" }}
             className="text-[16px] font-semibold tracking-wide text-white font-manrope"
           >
@@ -40,9 +58,9 @@ export default function Footer() {
           <div className="flex gap-10">
             {footerLinks.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
+                key={link.href + link.label}
+                href={link.section ?? link.href}
+                onClick={(e) => handleNavClick(e, link.href, link.section)}
                 style={{ color: "#9ca3af", textDecoration: "none" }}
                 className="text-xs tracking-[0.1em] transition-all duration-300 font-grotesk relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-[#9ca3af] after:transition-all after:duration-300 hover:text-white hover:after:w-full"
               >

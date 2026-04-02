@@ -64,20 +64,20 @@ export default function AboutHero() {
             className="text-[15px] text-gray-500 font-manrope leading-relaxed mb-6 max-w-[620px] space-y-3"
           >
             <p>
-              I&apos;m a Computer Engineering student with a strong passion for
-              UX/UI design, focused on creating intuitive and user-centered
-              digital experiences.
+              I&apos;m Computer Engineering student with a strong passion for
+              UX/UI design and front-end development, focused on creating
+              intuitive and user-centered digital experiences.
             </p>
             <p>
               With a background in full-stack development, I&apos;m able to
-              design clear user flows and translate them into functional,
-              responsive applications. My technical foundation allows me to
-              bridge the gap between design and development effectively.
+              design clear user flows and transform them into responsive,
+              interactive interfaces. My technical foundation enables me to
+              effectively bridge the gap between design and development.
             </p>
             <p>
               I enjoy working on real-world projects that solve meaningful
-              problems and continuously improving my skills to deliver better
-              user experiences.
+              problems and continuously improving my skills to deliver
+              high-quality user experiences.
             </p>
           </motion.div>
 

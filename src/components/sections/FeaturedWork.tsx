@@ -112,8 +112,8 @@ export default function FeaturedWork() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
         >
-          A curated selection of projects showcasing design and development
-          capabilities across web and mobile platforms.
+          A curated selection of projects showcasing my work across UX/UI
+          design, front-end, and full-stack development.
         </motion.p>
       </div>
 
