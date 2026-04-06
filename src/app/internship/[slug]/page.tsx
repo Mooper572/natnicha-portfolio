@@ -1,14 +1,19 @@
-import ProjectsHero from "@/components/sections/ProjectsHero";
-import ProjectList from "@/components/sections/ProjectList";
-import ProjectCTA from "@/components/sections/ProjectCTA";
+import DetailRenderer from "@/components/sections/DetailRenderer";
 import { internships } from "@/lib";
+import { notFound } from "next/navigation";
 
-export default function InternshipPage() {
+export default function InternshipDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const project = internships.find((p) => p.slug === params.slug);
+
+  if (!project) return notFound();
+
   return (
     <main>
-      <ProjectsHero />
-      <ProjectList data={internships} basePath="/internship" />
-      <ProjectCTA />
+      <DetailRenderer project={project} />
     </main>
   );
 }

@@ -1,17 +1,45 @@
 "use client";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import Image from "next/image";
-import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
-import { SiLine } from "react-icons/si";
 import { HiOutlineArrowRight } from "react-icons/hi";
+import dynamic from "next/dynamic";
+
+const FaLinkedinIn = dynamic(() =>
+  import("react-icons/fa").then((m) => ({ default: m.FaLinkedinIn }))
+);
+const FaInstagram = dynamic(() =>
+  import("react-icons/fa").then((m) => ({ default: m.FaInstagram }))
+);
+const SiLine = dynamic(() =>
+  import("react-icons/si").then((m) => ({ default: m.SiLine }))
+);
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 export default function AboutHero() {
   return (
     <section className="pt-24 pb-28 max-w-[1400px] mx-auto px-10">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
         className="flex overflow-hidden"
         style={{
           backgroundImage:
@@ -27,6 +55,7 @@ export default function AboutHero() {
             src="/profile.png"
             alt="Natnicha Inkongngam"
             fill
+            sizes="460px"
             className="object-cover object-center"
             priority
           />
@@ -36,9 +65,7 @@ export default function AboutHero() {
         <div className="flex flex-col justify-center px-14 py-10">
           {/* Label */}
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={itemVariants}
             className="text-[12px] tracking-[0.25em] text-[#777777] font-bold font-manrope mb-3"
           >
             ABOUT ME
@@ -46,9 +73,7 @@ export default function AboutHero() {
 
           {/* Name */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
+            variants={itemVariants}
             className="font-code text-[52px] font-medium leading-[1.1] text-[#2A2A28] mb-6"
           >
             Natnicha
@@ -58,9 +83,7 @@ export default function AboutHero() {
 
           {/* Bio */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            variants={itemVariants}
             className="text-[15px] text-gray-500 font-manrope leading-relaxed mb-6 max-w-[620px] space-y-3"
           >
             <p>
@@ -82,38 +105,26 @@ export default function AboutHero() {
           </motion.div>
 
           {/* Social Icons */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.38 }}
-            className="flex gap-3 mb-8"
-          >
+          <motion.div variants={itemVariants} className="flex gap-3 mb-8">
             {[
-              {
-                icon: <FaLinkedinIn size={14} />,
-                label: "LinkedIn",
-                href: "#",
-              },
-              { icon: <SiLine size={17} />, label: "Line", href: "#" },
-              {
-                icon: <FaInstagram size={18} />,
-                label: "Instagram",
-                href: "#",
-              },
-            ].map(({ icon, label, href }) => (
+              { Icon: FaLinkedinIn, size: 14, label: "LinkedIn", href: "#" },
+              { Icon: SiLine, size: 17, label: "Line", href: "#" },
+              { Icon: FaInstagram, size: 18, label: "Instagram", href: "#" },
+            ].map(({ Icon, size, label, href }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
                 className="w-11 h-11 border border-[#E8E8E8] rounded-full flex items-center justify-center text-[#1A1C1C] hover:bg-[#2a2a28] hover:border-[#2a2a28] hover:text-white transition-all duration-300"
               >
-                {icon}
+                <Icon size={size} />
               </a>
             ))}
           </motion.div>
 
           {/* READ CV Button */}
           <motion.a
+            variants={itemVariants}
             href="/cv.pdf"
             target="_blank"
             rel="noopener noreferrer"

@@ -67,7 +67,7 @@ export const projects: Project[] = [
                             "Frontend: HTML, CSS, JavaScript",
                             "Backend: Node.js (Express)",
                             "Database: MySQL",
-                            "Tools & Services: Figma, Google Maps API",
+                            "Tools & Services: Figma, Google Maps API, GitHub",
                         ],
                     },
                 ],
@@ -127,7 +127,7 @@ export const projects: Project[] = [
                         title: "TECH_STACK",
                         items: [
                             "Frontend: Flutter (Dart)",
-                            "Tools & Services: Figma",
+                            "Tools & Services: Figma, GitHub",
                         ],
                     },
                 ],
@@ -188,7 +188,7 @@ export const projects: Project[] = [
                         items: [
                             "Frontend: HTML, CSS, JavaScript",
                             "Backend: Node.js (Express)",
-                            "Tools & Services: Figma",
+                            "Tools & Services: Figma, GitHub",
                         ],
                     },
                 ],
