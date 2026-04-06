@@ -50,13 +50,13 @@ function ImageSlideshow({ images }: { images: string[] }) {
 
   return (
     <motion.section
-      className="max-w-[1400px] mx-auto px-10 py-2"
+      className="max-w-[1400px] mx-auto px-5 md:px-10 py-2"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="relative w-full h-[600px] overflow-hidden rounded-sm">
+      <div className="relative w-full h-[220px] sm:h-[380px] md:h-[600px] overflow-hidden rounded-sm">
         <AnimatePresence mode="sync" custom={direction}>
           <motion.div
             key={current}
@@ -151,16 +151,16 @@ function MobileSection({ section }: { section: any }) {
 
   return (
     <motion.section
-      className="max-w-[1400px] mx-auto px-10 pt-16 pb-2"
+      className="max-w-[1400px] mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-2"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="flex gap-16 items-center">
-        {/* Left: image slideshow */}
-        <div className="flex-shrink-0 flex flex-col items-center gap-4">
-          <div className="relative w-[580px] h-[620px] overflow-hidden rounded-sm bg-[#3a3a38]">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center">
+        {/* Image slideshow */}
+        <div className="flex-shrink-0 flex flex-col items-center gap-4 w-full md:w-auto">
+          <div className="relative w-full md:w-[580px] h-[360px] md:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38]">
             <AnimatePresence mode="sync" custom={direction}>
               <motion.div
                 key={current}
@@ -204,14 +204,14 @@ function MobileSection({ section }: { section: any }) {
         {/* Right: text with inline border */}
         <div className="flex gap-8 items-start">
           {/* Vertical line */}
-          <div className="w-px bg-gray-300 self-stretch" />
+          <div className="hidden md:block w-px bg-gray-300 self-stretch" />
 
           {/* Text content */}
           <div className="flex flex-col justify-center">
-            <h2 className="font-code font-medium text-[32px] mb-6 text-[#2A2A28]">
+            <h2 className="font-code font-medium text-[24px] md:text-[32px] mb-4 md:mb-6 text-[#2A2A28]">
               {section.title}
             </h2>
-            <div className="space-y-4 mb-16">
+            <div className="space-y-4 mb-10 md:mb-16">
               {section.description
                 .split("\n\n")
                 .map((para: string, idx: number) => (
@@ -225,7 +225,7 @@ function MobileSection({ section }: { section: any }) {
             </div>
 
             {section.stats && section.stats.length > 0 && (
-              <div className="flex gap-16">
+              <div className="flex flex-wrap gap-8 md:gap-16">
                 {section.stats.map((stat: any, idx: number) => (
                   <div key={idx}>
                     <p className="font-code text-[32px] text-[#2A2A28] mb-1">
@@ -257,7 +257,7 @@ export default function DetailRenderer({ project }: { project: Project }) {
           return (
             <section
               key={i}
-              className="max-w-[1400px] mx-auto px-10 pt-20 pb-10"
+              className="max-w-[1400px] mx-auto px-5 md:px-10 pt-14 md:pt-20 pb-8 md:pb-10"
             >
               <motion.p
                 className="text-[11px] tracking-[0.25em] text-gray-400 mb-4 font-bold font-manrope uppercase"
@@ -269,7 +269,7 @@ export default function DetailRenderer({ project }: { project: Project }) {
               </motion.p>
 
               <motion.h1
-                className="font-code font-medium text-[64px] leading-tight mb-10"
+                className="font-code font-medium text-[36px] md:text-[64px] leading-tight mb-8 md:mb-10"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -278,7 +278,7 @@ export default function DetailRenderer({ project }: { project: Project }) {
               </motion.h1>
 
               <motion.div
-                className="border-l-4 border-[#2A2A28] bg-[#F2F4F4] px-10 py-4 flex gap-16 text-sm mb-12"
+                className="border-l-4 border-[#2A2A28] bg-[#F2F4F4] px-5 md:px-10 py-4 grid grid-cols-2 md:flex md:gap-16 gap-x-8 gap-y-3 text-sm mb-10 md:mb-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -320,12 +320,12 @@ export default function DetailRenderer({ project }: { project: Project }) {
               </motion.div>
 
               <motion.div
-                className="grid grid-cols-[1fr_2fr] gap-16"
+                className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <p className="font-newsreader italic text-[#2A2A28] text-[20px] leading-relaxed">
+                <p className="font-newsreader italic text-[#2A2A28] text-[17px] md:text-[20px] leading-relaxed">
                   {section.title}
                 </p>
                 <div className="space-y-4">
@@ -366,14 +366,14 @@ export default function DetailRenderer({ project }: { project: Project }) {
           return (
             <motion.section
               key={i}
-              className="max-w-[1400px] mx-auto px-10 py-16"
+              className="max-w-[1400px] mx-auto px-5 md:px-10 py-10 md:py-16"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
               <div
-                className="bg-[#f6f8f6] p-10 grid grid-cols-3 gap-10"
+                className="bg-[#f6f8f6] p-5 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10"
                 style={{
                   backgroundImage:
                     "linear-gradient(to right, #C6C6C6 50%, transparent 50%), linear-gradient(to right, #C6C6C6 50%, transparent 50%), linear-gradient(to bottom, #C6C6C6 50%, transparent 50%), linear-gradient(to bottom, #C6C6C6 50%, transparent 50%)",

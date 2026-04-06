@@ -35,12 +35,12 @@ const itemVariants: Variants = {
 
 export default function AboutHero() {
   return (
-    <section className="pt-24 pb-28 max-w-[1400px] mx-auto px-10">
+    <section className="pt-14 md:pt-24 pb-16 md:pb-28 max-w-[1400px] mx-auto px-5 md:px-10">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="flex overflow-hidden"
+        className="flex flex-col md:flex-row overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(to right, #C6C6C6 50%, transparent 50%), linear-gradient(to right, #C6C6C6 50%, transparent 50%), linear-gradient(to bottom, #C6C6C6 50%, transparent 50%), linear-gradient(to bottom, #C6C6C6 50%, transparent 50%)",
@@ -49,20 +49,20 @@ export default function AboutHero() {
           backgroundPosition: "top, bottom, left, right",
         }}
       >
-        {/* Left — Photo */}
-        <div className="relative w-[460px] flex-shrink-0 min-h-[540px]">
+        {/* Top / Left — Photo */}
+        <div className="relative w-full md:w-[460px] md:flex-shrink-0 h-[280px] md:min-h-[540px]">
           <Image
             src="/profile.png"
             alt="Natnicha Inkongngam"
             fill
-            sizes="460px"
-            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 460px"
+            className="object-cover object-top md:object-center"
             priority
           />
         </div>
 
-        {/* Right — Content */}
-        <div className="flex flex-col justify-center px-14 py-10">
+        {/* Bottom / Right — Content */}
+        <div className="flex flex-col justify-center px-6 md:px-14 py-8 md:py-10">
           {/* Label */}
           <motion.p
             variants={itemVariants}
@@ -74,7 +74,7 @@ export default function AboutHero() {
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-code text-[52px] font-medium leading-[1.1] text-[#2A2A28] mb-6"
+            className="font-code text-[36px] md:text-[52px] font-medium leading-[1.1] text-[#2A2A28] mb-5 md:mb-6"
           >
             Natnicha
             <br />
@@ -84,7 +84,7 @@ export default function AboutHero() {
           {/* Bio */}
           <motion.div
             variants={itemVariants}
-            className="text-[15px] text-gray-500 font-manrope leading-relaxed mb-6 max-w-[620px] space-y-3"
+            className="text-[14px] md:text-[15px] text-gray-500 font-manrope leading-relaxed mb-5 md:mb-6 max-w-[620px] space-y-3"
           >
             <p>
               I&apos;m Computer Engineering student with a strong passion for
@@ -105,7 +105,7 @@ export default function AboutHero() {
           </motion.div>
 
           {/* Social Icons */}
-          <motion.div variants={itemVariants} className="flex gap-3 mb-8">
+          <motion.div variants={itemVariants} className="flex gap-3 mb-6 md:mb-8">
             {[
               { Icon: FaLinkedinIn, size: 14, label: "LinkedIn", href: "#" },
               { Icon: SiLine, size: 17, label: "Line", href: "#" },
@@ -128,7 +128,7 @@ export default function AboutHero() {
             href="/cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 border-[1.3px] border-[#2a2a28] px-16 py-4 text-[12px] tracking-[0.25em] font-medium font-manrope text-[#2a2a28] hover:bg-[#2a2a28] hover:text-white transition-all duration-300 w-fit"
+            className="inline-flex items-center gap-3 border-[1.3px] border-[#2a2a28] px-10 md:px-16 py-4 text-[12px] tracking-[0.25em] font-medium font-manrope text-[#2a2a28] hover:bg-[#2a2a28] hover:text-white transition-all duration-300 w-fit"
             whileHover="hovered"
           >
             READ CV

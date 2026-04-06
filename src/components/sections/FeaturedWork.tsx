@@ -101,7 +101,7 @@ export default function FeaturedWork() {
     <section
       id="projects"
       style={{ maxWidth: "1250px" }}
-      className="mx-auto px-6 pt-24 pb-28"
+      className="mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-20 md:pb-28"
     >
       {/* Header */}
       <div className="mb-14 text-center">
@@ -128,14 +128,8 @@ export default function FeaturedWork() {
         </motion.p>
       </div>
 
-      {/* 3×2 Project Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "1.5rem",
-        }}
-      >
+      {/* 1→2→3 col Project Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         {projects.map((project, i) => (
           <Link
             key={project.id}
@@ -157,7 +151,7 @@ export default function FeaturedWork() {
               whileHover={{ y: -8 }}
             >
               {/* Image */}
-              <div className="overflow-hidden h-[230px] relative">
+              <div className="overflow-hidden h-[200px] md:h-[230px] relative">
                 <Image
                   src={project.src}
                   alt={project.title}

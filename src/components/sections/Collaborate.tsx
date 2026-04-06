@@ -40,9 +40,9 @@ export default function Collaborate() {
   };
 
   return (
-    <section id="contact" className="bg-white py-24">
-      <div style={{ maxWidth: "1400px" }} className="mx-auto px-10">
-        <div className="grid grid-cols-2 gap-16 items-start">
+    <section id="contact" className="bg-white py-16 md:py-24">
+      <div style={{ maxWidth: "1400px" }} className="mx-auto px-5 md:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
 
           {/* Left */}
           <div>
@@ -57,7 +57,7 @@ export default function Collaborate() {
             </motion.p>
 
             <motion.h2
-              className="text-[48px] font-medium font-code leading-tight mb-6"
+              className="text-[36px] md:text-[48px] font-medium font-code leading-tight mb-6"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -89,7 +89,7 @@ export default function Collaborate() {
               <p className="text-[12px] text-[#1A1C1C] tracking-[0.2em] mb-4 font-bold font-manrope">
                 CONNECT
               </p>
-              <div className="flex gap-6 text-[12px] font-bold font-manrope text-gray-800 tracking-widest">
+              <div className="flex flex-wrap gap-4 md:gap-6 text-[12px] font-bold font-manrope text-gray-800 tracking-widest">
                 <a href="#" className="hover:text-black underline underline-offset-4">INSTAGRAM</a>
                 <a href="#" className="hover:text-black underline underline-offset-4">LINKEDIN</a>
                 <a href="#" className="hover:text-black underline underline-offset-4">READCV</a>
@@ -104,7 +104,7 @@ export default function Collaborate() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-            className="p-8"
+            className="p-6 md:p-8"
             style={{
               backgroundImage: `
                 linear-gradient(to right, #d1d5db 50%, transparent 50%),
@@ -120,7 +120,7 @@ export default function Collaborate() {
             <form onSubmit={sendEmail}>
               <input type="text" name="company" style={{ display: "none" }} />
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
   <div>
     <label className="text-[10px] tracking-widest text-[#777777] font-semibold font-manrope mb-1.5 block">
       FULL NAME

@@ -41,9 +41,9 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#2a2a28] text-gray-400">
-      <div style={{ maxWidth: "1400px" }} className="mx-auto px-10 py-8">
+      <div style={{ maxWidth: "1400px" }} className="mx-auto px-5 md:px-10 py-8">
         {/* Top row */}
-        <div className="flex justify-between items-center border-b border-gray-700 pb-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 border-b border-gray-700 pb-8">
           {/* Logo */}
           <a
             href="/"
@@ -55,7 +55,7 @@ export default function Footer() {
           </a>
 
           {/* Nav links */}
-          <div className="flex gap-10">
+          <div className="flex flex-wrap gap-x-6 gap-y-3 md:gap-10">
             {footerLinks.map((link) => (
               <a
                 key={link.href + link.label}
@@ -99,7 +99,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <p className="text-center text-[12px] mt-10 tracking-[0.1em] font-Regular font-grotesk">
+        <p className="text-center text-[12px] mt-8 md:mt-10 tracking-[0.1em] font-Regular font-grotesk">
           © 2026 NATNICHA.MO ALL RIGHTS RESERVED.
         </p>
       </div>

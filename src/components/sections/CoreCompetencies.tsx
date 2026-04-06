@@ -57,8 +57,8 @@ const cardVariants: Variants = {
 
 export default function CoreCompetencies() {
   return (
-    <section id="about" className="bg-gray-100 pt-24 pb-28">
-      <div className="mx-auto px-6" style={{ maxWidth: "1250px" }}>
+    <section id="about" className="bg-gray-100 pt-16 md:pt-24 pb-20 md:pb-28">
+      <div className="mx-auto px-5 md:px-6" style={{ maxWidth: "1250px" }}>
 
         {/* Header */}
         <div className="mb-14 text-center">
@@ -87,8 +87,7 @@ export default function CoreCompetencies() {
 
         {/* Cards */}
         <motion.div
-          className="border border-[#C6C6C6]"
-          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-[#C6C6C6]"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -102,10 +101,7 @@ export default function CoreCompetencies() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-60px" }}
-              className="p-7 flex flex-col gap-4"
-              style={{
-                borderRight: i < competencies.length - 1 ? "1px solid #C6C6C6" : "none",
-              }}
+              className="p-6 md:p-7 flex flex-col gap-4 border-b border-[#C6C6C6] last:border-b-0 sm:[&:nth-child(odd)]:border-r sm:last:border-b sm:last:border-r-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
             >
               <span className="text-xs text-gray-400 tracking-widest heading-mono">
                 {c.num}

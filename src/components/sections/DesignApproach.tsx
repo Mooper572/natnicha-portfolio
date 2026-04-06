@@ -5,12 +5,12 @@ import Image from "next/image";
 export default function DesignApproach() {
   return (
     <section className="bg-[#2a2a28] text-white overflow-hidden">
-      <div className="flex items-stretch min-h-[520px]">
-        {/* Left — Text */}
-        <div className="flex flex-col justify-center pl-[calc((100vw-1400px)/2+30px)] pr-24 py-24 w-[50%] flex-shrink-0">
+      <div className="flex flex-col md:flex-row items-stretch min-h-auto md:min-h-[520px]">
+        {/* Top / Left — Text */}
+        <div className="flex flex-col justify-center px-5 md:pl-[calc((100vw-1400px)/2+30px)] md:pr-24 py-14 md:py-24 w-full md:w-[50%] md:flex-shrink-0">
           {/* Title */}
           <motion.h2
-            className="text-[52px] font-medium font-code leading-tight mb-6"
+            className="text-[36px] md:text-[52px] font-medium font-code leading-tight mb-5 md:mb-6"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -23,7 +23,7 @@ export default function DesignApproach() {
 
           {/* Paragraph */}
           <motion.p
-            className="text-gray-400 text-[15px] leading-relaxed mb-8"
+            className="text-gray-400 text-[14px] md:text-[15px] leading-relaxed mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -37,9 +37,9 @@ export default function DesignApproach() {
           </motion.p>
         </div>
 
-        {/* Right — Image */}
+        {/* Bottom / Right — Image */}
         <motion.div
-          className="flex-1 relative overflow-hidden"
+          className="flex-1 relative overflow-hidden min-h-[260px] md:min-h-0"
           initial={{ opacity: 0, scale: 1.05 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

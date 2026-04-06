@@ -187,7 +187,7 @@ export default function Hero() {
     filter === "ALL" ? [...filtered, ...filtered] : filtered;
 
   return (
-    <section id="home" className="pt-16 pb-24 max-w-[1400px] mx-auto px-10">
+    <section id="home" className="pt-10 md:pt-16 pb-16 md:pb-24 max-w-[1400px] mx-auto px-5 md:px-10">
       {/* Profile Photo — fade + scale เหมือนเดิม */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -195,11 +195,12 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="mb-8"
       >
-        <div className="relative w-[180px] h-[180px] rounded-full overflow-hidden">
+        <div className="relative w-[120px] h-[120px] md:w-[180px] md:h-[180px] rounded-full overflow-hidden">
           <Image
             src="/profile.png"
             alt="Natnicha Inkongngam profile photo"
             fill
+            sizes="(max-width: 768px) 120px, 180px"
             className="object-cover scale-125 object-[center_90%]"
             priority
           />
@@ -208,7 +209,7 @@ export default function Hero() {
 
       {/* Heading — fade + slide up */}
       <motion.h1
-        className="font-code text-[48px] text-[#2A2A28] font-medium leading-[1.15] max-w-[1100px] mb-5"
+        className="font-code text-[28px] md:text-[48px] text-[#2A2A28] font-medium leading-[1.15] max-w-[1100px] mb-5"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
@@ -219,7 +220,7 @@ export default function Hero() {
 
       {/* Description — fade + slide up */}
       <motion.p
-        className="font-manrope text-gray-500 text-[16px] leading-relaxed max-w-[1200px] mb-8"
+        className="font-manrope text-gray-500 text-[14px] md:text-[16px] leading-relaxed max-w-[1200px] mb-6 md:mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -233,7 +234,7 @@ export default function Hero() {
 
       {/* Filter Buttons — fade + slide up พร้อม stagger */}
       <motion.div
-        className="flex gap-3 mb-8"
+        className="flex gap-2 md:gap-3 mb-6 md:mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -243,7 +244,7 @@ export default function Hero() {
             key={f}
             onClick={() => handleFilterChange(f)}
             className={
-              "px-5 py-2 text-xs tracking-widest cursor-pointer transition-all duration-200 " +
+              "px-3 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs tracking-widest cursor-pointer transition-all duration-200 " +
               (filter === f
                 ? "bg-black text-white border border-black"
                 : "text-gray-500 border border-gray-300 hover:border-gray-500 hover:text-gray-700")
@@ -294,13 +295,14 @@ export default function Hero() {
                   variants={cardVariants}
                   initial="hidden"
                   animate="visible"
-                  className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[420px]"
+                  className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[280px] md:w-[420px]"
                 >
-                  <div className="relative w-full h-[280px]">
+                  <div className="relative w-full h-[190px] md:h-[280px]">
                     <Image
                       src={project.src}
                       alt={project.alt}
                       fill
+                      sizes="420px" 
                       className={`object-cover pointer-events-none select-none ${
                         project.zoom ? zoomConfig.zoom : ""
                       } ${project.zoom ? "translate-y-10" : ""}`}

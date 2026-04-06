@@ -73,10 +73,10 @@ export default function ProjectList({
       : data.filter((p) => p.filters.includes(active as FilterType));
 
   return (
-    <section className="max-w-[1400px] mx-auto px-10 pb-16">
+    <section className="max-w-[1400px] mx-auto px-5 md:px-10 pb-16">
       {/* Filter Buttons */}
       <motion.div
-        className="flex gap-3 mb-12"
+        className="flex flex-wrap gap-2 md:gap-3 mb-10 md:mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
@@ -86,7 +86,7 @@ export default function ProjectList({
             key={f}
             onClick={() => setActive(f)}
             className={
-              "px-5 py-2 text-xs tracking-widest cursor-pointer transition-all duration-200 font-grotesk " +
+              "px-3 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs tracking-widest cursor-pointer transition-all duration-200 font-grotesk " +
               (active === f
                 ? "bg-black text-white border border-black"
                 : "text-gray-500 border border-gray-300 hover:border-gray-500 hover:text-gray-700")
@@ -109,11 +109,11 @@ export default function ProjectList({
               whileInView="visible"
               exit="exit"
               viewport={{ once: true, amount: 0.05 }}
-              className="flex gap-0 overflow-hidden bg-white"
+              className="flex flex-col md:flex-row gap-0 overflow-hidden bg-white"
               style={dashedBorder}
             >
               {/* Image */}
-              <div className="relative w-[620px] flex-shrink-0 self-stretch overflow-hidden group">
+              <div className="relative w-full md:w-[620px] md:flex-shrink-0 h-[220px] md:h-auto self-stretch overflow-hidden group">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -128,17 +128,17 @@ export default function ProjectList({
               </div>
 
               {/* Content */}
-              <div className="flex flex-col justify-between p-10 flex-1">
+              <div className="flex flex-col justify-between p-6 md:p-10 flex-1">
                 <div>
-                  <h2 className="font-code text-[32px] font-medium text-[#2A2A28] mb-4 leading-tight">
+                  <h2 className="font-code text-[24px] md:text-[32px] font-medium text-[#2A2A28] mb-3 md:mb-4 leading-tight">
                     {project.title}
                   </h2>
-                  <p className="font-manrope text-gray-500 text-[14px] leading-relaxed mb-6 max-w-[520px]">
+                  <p className="font-manrope text-gray-500 text-[13px] md:text-[14px] leading-relaxed mb-5 md:mb-6 max-w-[520px]">
                     {project.description}
                   </p>
 
                   {/* Tech Stack */}
-                  <div className="mb-6">
+                  <div className="mb-5 md:mb-6">
                     <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-2">
                       TECH STACK
                     </p>
@@ -155,10 +155,10 @@ export default function ProjectList({
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 mb-6" />
+                <div className="border-t border-gray-200 mb-5 md:mb-6" />
 
-                <div className="flex items-end justify-between">
-                  <div className="flex gap-20">
+                <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+                  <div className="flex gap-10 md:gap-20">
                     <div>
                       <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-1">
                         YEAR
@@ -179,7 +179,7 @@ export default function ProjectList({
 
                   <Link href={`${basePath}/${project.slug}`}>
                     <motion.div
-                      className="flex items-center gap-3 border border-gray-300 px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-pointer"
+                      className="flex items-center gap-3 border border-gray-300 px-8 md:px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-pointer w-full sm:w-auto justify-center"
                       whileHover="hovered"
                     >
                       SEE

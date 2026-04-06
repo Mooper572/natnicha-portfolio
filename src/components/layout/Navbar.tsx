@@ -6,13 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 const navLinks = [
   { label: "[HOME]", href: "/", section: "#home" },
   { label: "[PROJECTS]", href: "/projects", section: null },
-  { label: "[INTERNSHIP]", href: "/internship", section: null }, // ✅ แก้ตรงนี้
+  { label: "[INTERNSHIP]", href: "/internship", section: null },
   { label: "[ABOUT]", href: "/about", section: null },
   { label: "[CONTACT]", href: "/", section: "#contact" },
 ];
 
 export default function Navbar() {
   const [visible, setVisible] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const lastY = useRef(0);
   const pathname = usePathname();
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Navbar() {
   useEffect(() => {
     lastY.current = 0;
     setVisible(true);
+    setMobileOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function Navbar() {
     section: string | null
   ) => {
     e.preventDefault();
+    setMobileOpen(false);
 
     if (section) {
       if (pathname !== "/") {
@@ -71,7 +74,7 @@ export default function Navbar() {
         backgroundPosition: "bottom",
       }}
     >
-      <div className="max-w-[1400px] mx-auto flex items-center justify-between px-10 py-2.5">
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-2.5">
         {/* LOGO */}
         <Link
           href="/"
@@ -80,8 +83,8 @@ export default function Navbar() {
           NATNICHA.MO
         </Link>
 
-        {/* NAV LINKS */}
-        <div className="flex gap-10">
+        {/* NAV LINKS — desktop only */}
+        <div className="hidden md:flex gap-10">
           {navLinks.map((link) => (
             <a
               key={link.href + link.label}
@@ -94,12 +97,62 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* STATUS */}
-        <div className="flex items-center gap-3 px-5 py-3 text-[12px] text-[#666666] border border-gray-300 bg-gray-100 font-grotesk">
+        {/* STATUS — desktop only */}
+        <div className="hidden md:flex items-center gap-3 px-5 py-3 text-[12px] text-[#666666] border border-gray-300 bg-gray-100 font-grotesk">
           <span className="relative flex items-center justify-center w-3 h-3 radar-modern">
             <span className="radar-core w-2 h-2 rounded-full bg-green-500"></span>
           </span>
           <span className="tracking-wide">[STATUS: READY]</span>
+        </div>
+
+        {/* Hamburger — mobile only */}
+        <button
+          className="md:hidden flex flex-col gap-[5px] justify-center items-center w-9 h-9 cursor-pointer"
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-label="Toggle menu"
+        >
+          <span
+            className="block w-6 h-[1.5px] bg-[#2a2a28] transition-all duration-300"
+            style={{
+              transform: mobileOpen ? "translateY(6.5px) rotate(45deg)" : "none",
+            }}
+          />
+          <span
+            className="block w-6 h-[1.5px] bg-[#2a2a28] transition-all duration-300"
+            style={{ opacity: mobileOpen ? 0 : 1 }}
+          />
+          <span
+            className="block w-6 h-[1.5px] bg-[#2a2a28] transition-all duration-300"
+            style={{
+              transform: mobileOpen ? "translateY(-6.5px) rotate(-45deg)" : "none",
+            }}
+          />
+        </button>
+      </div>
+
+      {/* Mobile Menu Drawer */}
+      <div
+        className="md:hidden overflow-hidden transition-all duration-300"
+        style={{ maxHeight: mobileOpen ? "320px" : "0px" }}
+      >
+        <div className="flex flex-col px-5 pb-5 pt-2 gap-1 bg-white border-t border-gray-100">
+          {/* STATUS badge - mobile */}
+          <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#666666] bg-gray-100 border border-gray-200 font-grotesk mb-2 w-fit">
+            <span className="relative flex items-center justify-center w-2.5 h-2.5 radar-modern">
+              <span className="radar-core w-1.5 h-1.5 rounded-full bg-green-500"></span>
+            </span>
+            <span className="tracking-wide">[STATUS: READY]</span>
+          </div>
+          {navLinks.map((link) => (
+            <a
+              key={link.href + link.label}
+              href={link.section ?? link.href}
+              onClick={(e) => handleNavClick(e, link.href, link.section)}
+              className="text-xs tracking-[0.15em] py-3 border-b border-gray-100 font-grotesk text-[#666666] hover:text-black transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
     </nav>
