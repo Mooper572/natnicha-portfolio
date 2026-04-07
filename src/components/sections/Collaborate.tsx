@@ -57,7 +57,7 @@ export default function Collaborate() {
             </motion.p>
 
             <motion.h2
-              className="text-[36px] md:text-[48px] font-medium font-code leading-tight mb-6"
+              className="text-[36px] md:text-[40px] lg:text-[48px] font-medium font-code leading-tight mb-6"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

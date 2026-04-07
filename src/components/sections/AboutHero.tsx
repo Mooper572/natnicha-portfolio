@@ -50,19 +50,20 @@ export default function AboutHero() {
         }}
       >
         {/* Top / Left — Photo */}
-        <div className="relative w-full md:w-[460px] md:flex-shrink-0 h-[280px] md:min-h-[540px]">
+        <div className="w-full md:w-[360px] lg:w-[460px] md:flex-shrink-0 relative md:min-h-[480px] lg:min-h-[560px]">
           <Image
             src="/profile.png"
             alt="Natnicha Inkongngam"
-            fill
-            sizes="(max-width: 768px) 100vw, 460px"
-            className="object-cover object-top md:object-center"
+            width={460}
+            height={600}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 360px, 460px"
+            className="w-full h-auto md:absolute md:inset-0 md:h-full md:object-cover md:object-top"
             priority
           />
         </div>
 
         {/* Bottom / Right — Content */}
-        <div className="flex flex-col justify-center px-6 md:px-14 py-8 md:py-10">
+        <div className="flex flex-col justify-center px-6 md:px-8 lg:px-14 py-8 md:py-10">
           {/* Label */}
           <motion.p
             variants={itemVariants}
@@ -74,7 +75,7 @@ export default function AboutHero() {
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-code text-[36px] md:text-[52px] font-medium leading-[1.1] text-[#2A2A28] mb-5 md:mb-6"
+            className="font-code text-[36px] md:text-[40px] lg:text-[52px] font-medium leading-[1.1] text-[#2A2A28] mb-5 md:mb-6"
           >
             Natnicha
             <br />

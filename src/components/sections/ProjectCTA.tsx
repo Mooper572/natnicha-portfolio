@@ -31,7 +31,7 @@ export default function ProjectCTA() {
         </motion.p>
 
         <motion.h2
-          className="font-newsreader text-[26px] md:text-[40px] italic font-regular text-[#2A2A28] leading-tight mb-8 md:mb-10"
+          className="font-newsreader text-[26px] md:text-[32px] lg:text-[40px] italic font-regular text-[#2A2A28] leading-tight mb-8 md:mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

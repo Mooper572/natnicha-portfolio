@@ -15,8 +15,19 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const lastY = useRef(0);
+  const mobileOpenRef = useRef(false);
   const pathname = usePathname();
   const router = useRouter();
+
+  // Keep ref in sync with state so scroll handler can read it without stale closure
+  useEffect(() => {
+    mobileOpenRef.current = mobileOpen;
+    // When menu opens, force navbar visible and reset lastY to prevent jump
+    if (mobileOpen) {
+      setVisible(true);
+      lastY.current = window.scrollY;
+    }
+  }, [mobileOpen]);
 
   useEffect(() => {
     lastY.current = 0;
@@ -26,6 +37,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const handler = () => {
+      // Never hide navbar while mobile menu is open
+      if (mobileOpenRef.current) return;
       const currentY = window.scrollY;
       if (currentY < 10) setVisible(true);
       else if (currentY > lastY.current) setVisible(false);
@@ -67,14 +80,18 @@ export default function Navbar() {
       style={{
         transform: visible ? "translateY(0)" : "translateY(-100%)",
         transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-        backgroundImage:
-          "linear-gradient(to right, #C6C6C6 50%, transparent 50%)",
-        backgroundSize: "8px 1px",
-        backgroundRepeat: "repeat-x",
-        backgroundPosition: "bottom",
       }}
     >
-      <div className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-2.5">
+      <div
+        className="max-w-[1400px] mx-auto flex items-center justify-between px-5 lg:px-10 py-2.5"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #C6C6C6 50%, transparent 50%)",
+          backgroundSize: "8px 1px",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "bottom",
+        }}
+      >
         {/* LOGO */}
         <Link
           href="/"
@@ -83,8 +100,8 @@ export default function Navbar() {
           NATNICHA.MO
         </Link>
 
-        {/* NAV LINKS — desktop only */}
-        <div className="hidden md:flex gap-10">
+        {/* NAV LINKS — desktop only (lg and above) */}
+        <div className="hidden lg:flex gap-10">
           {navLinks.map((link) => (
             <a
               key={link.href + link.label}
@@ -97,17 +114,17 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* STATUS — desktop only */}
-        <div className="hidden md:flex items-center gap-3 px-5 py-3 text-[12px] text-[#666666] border border-gray-300 bg-gray-100 font-grotesk">
+        {/* STATUS — desktop only (lg and above) */}
+        <div className="hidden lg:flex items-center gap-3 px-5 py-3 text-[12px] text-[#666666] border border-gray-300 bg-gray-100 font-grotesk">
           <span className="relative flex items-center justify-center w-3 h-3 radar-modern">
             <span className="radar-core w-2 h-2 rounded-full bg-green-500"></span>
           </span>
           <span className="tracking-wide">[STATUS: READY]</span>
         </div>
 
-        {/* Hamburger — mobile only */}
+        {/* Hamburger — mobile & tablet (below lg) */}
         <button
-          className="md:hidden flex flex-col gap-[5px] justify-center items-center w-9 h-9 cursor-pointer"
+          className="lg:hidden flex flex-col gap-[5px] justify-center items-center w-9 h-9 cursor-pointer"
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="Toggle menu"
         >
@@ -130,13 +147,14 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Drawer — mobile & tablet (below lg) */}
       <div
-        className="md:hidden overflow-hidden transition-all duration-300"
+        className="lg:hidden overflow-hidden transition-all duration-300 relative z-50 bg-white"
         style={{ maxHeight: mobileOpen ? "320px" : "0px" }}
       >
-        <div className="flex flex-col px-5 pb-5 pt-2 gap-1 bg-white border-t border-gray-100">
-          {/* STATUS badge - mobile */}
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-10 pb-5 pt-2">
+          <div className="flex flex-col gap-1 border-t border-gray-100 pt-2">
+          {/* STATUS badge - mobile/tablet */}
           <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#666666] bg-gray-100 border border-gray-200 font-grotesk mb-2 w-fit">
             <span className="relative flex items-center justify-center w-2.5 h-2.5 radar-modern">
               <span className="radar-core w-1.5 h-1.5 rounded-full bg-green-500"></span>
@@ -153,6 +171,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          </div>
         </div>
       </div>
     </nav>

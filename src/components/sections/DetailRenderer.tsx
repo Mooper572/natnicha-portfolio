@@ -160,7 +160,7 @@ function MobileSection({ section }: { section: any }) {
       <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center">
         {/* Image slideshow */}
         <div className="flex-shrink-0 flex flex-col items-center gap-4 w-full md:w-auto">
-          <div className="relative w-full md:w-[580px] h-[360px] md:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38]">
+          <div className="relative w-full md:w-[380px] lg:w-[580px] h-[360px] md:h-[460px] lg:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38]">
             <AnimatePresence mode="sync" custom={direction}>
               <motion.div
                 key={current}
@@ -183,6 +183,32 @@ function MobileSection({ section }: { section: any }) {
                 />
               </motion.div>
             </AnimatePresence>
+
+            {/* Counter มุมบนขวา */}
+            <div className="absolute top-4 right-5 z-10 font-grotesk text-[11px] tracking-widest text-white/70">
+              {String(current + 1).padStart(2, "0")} /{" "}
+              {String(images.length).padStart(2, "0")}
+            </div>
+
+            {/* ปุ่มซ้าย/ขวา */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={() =>
+                    goTo((current - 1 + images.length) % images.length)
+                  }
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={() => goTo((current + 1) % images.length)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
+                >
+                  ›
+                </button>
+              </>
+            )}
           </div>
 
           {/* Dot pagination */}
@@ -208,7 +234,7 @@ function MobileSection({ section }: { section: any }) {
 
           {/* Text content */}
           <div className="flex flex-col justify-center">
-            <h2 className="font-code font-medium text-[24px] md:text-[32px] mb-4 md:mb-6 text-[#2A2A28]">
+            <h2 className="font-code font-medium text-[24px] md:text-[26px] lg:text-[32px] mb-4 md:mb-6 text-[#2A2A28]">
               {section.title}
             </h2>
             <div className="space-y-4 mb-10 md:mb-16">
@@ -269,7 +295,7 @@ export default function DetailRenderer({ project }: { project: Project }) {
               </motion.p>
 
               <motion.h1
-                className="font-code font-medium text-[36px] md:text-[64px] leading-tight mb-8 md:mb-10"
+                className="font-code font-medium text-[36px] md:text-[48px] lg:text-[64px] leading-tight mb-8 md:mb-10"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -278,7 +304,7 @@ export default function DetailRenderer({ project }: { project: Project }) {
               </motion.h1>
 
               <motion.div
-                className="border-l-4 border-[#2A2A28] bg-[#F2F4F4] px-5 md:px-10 py-4 grid grid-cols-2 md:flex md:gap-16 gap-x-8 gap-y-3 text-sm mb-10 md:mb-12"
+                className="border-l-4 border-[#2A2A28] bg-[#F2F4F4] px-5 md:px-10 py-4 flex flex-col gap-y-3 md:flex-row md:gap-16 text-sm mb-10 md:mb-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}

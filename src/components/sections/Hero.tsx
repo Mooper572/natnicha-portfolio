@@ -209,7 +209,7 @@ export default function Hero() {
 
       {/* Heading — fade + slide up */}
       <motion.h1
-        className="font-code text-[28px] md:text-[48px] text-[#2A2A28] font-medium leading-[1.15] max-w-[1100px] mb-5"
+        className="font-code text-[28px] md:text-[38px] lg:text-[48px] text-[#2A2A28] font-medium leading-[1.15] max-w-[1100px] mb-5"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
@@ -295,9 +295,9 @@ export default function Hero() {
                   variants={cardVariants}
                   initial="hidden"
                   animate="visible"
-                  className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[280px] md:w-[420px]"
+                  className="rounded-xl overflow-hidden bg-gray-200 flex-shrink-0 w-[280px] md:w-[340px] lg:w-[420px]"
                 >
-                  <div className="relative w-full h-[190px] md:h-[280px]">
+                  <div className="relative w-full h-[190px] md:h-[230px] lg:h-[280px]">
                     <Image
                       src={project.src}
                       alt={project.alt}

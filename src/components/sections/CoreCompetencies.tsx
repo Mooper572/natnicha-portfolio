@@ -63,7 +63,7 @@ export default function CoreCompetencies() {
         {/* Header */}
         <div className="mb-14 text-center">
           <motion.h2
-            className="text-[36px] font-semibold font-code"
+            className="text-[28px] md:text-[36px] font-semibold font-code"
             variants={fadeUp}
             custom={0}
             initial="hidden"
@@ -73,7 +73,7 @@ export default function CoreCompetencies() {
             Core Competencies
           </motion.h2>
           <motion.p
-            className="text-gray-500 text-[15px] mt-3 max-w-xl mx-auto leading-relaxed"
+            className="text-gray-500 text-[14px] md:text-[15px] mt-3 max-w-xl mx-auto leading-relaxed"
             variants={fadeUp}
             custom={0.1}
             initial="hidden"

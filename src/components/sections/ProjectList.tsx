@@ -113,7 +113,7 @@ export default function ProjectList({
               style={dashedBorder}
             >
               {/* Image */}
-              <div className="relative w-full md:w-[620px] md:flex-shrink-0 h-[220px] md:h-auto self-stretch overflow-hidden group">
+              <div className="relative w-full md:w-[300px] lg:w-[380px] xl:w-[500px] 2xl:w-[620px] md:flex-shrink-0 h-[220px] md:h-auto self-stretch overflow-hidden group">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -128,12 +128,12 @@ export default function ProjectList({
               </div>
 
               {/* Content */}
-              <div className="flex flex-col justify-between p-6 md:p-10 flex-1">
+              <div className="flex flex-col justify-between p-6 md:p-7 lg:p-8 xl:p-10 flex-1">
                 <div>
-                  <h2 className="font-code text-[24px] md:text-[32px] font-medium text-[#2A2A28] mb-3 md:mb-4 leading-tight">
+                  <h2 className="font-code text-[24px] md:text-[20px] lg:text-[26px] xl:text-[32px] font-medium text-[#2A2A28] mb-3 md:mb-4 leading-tight">
                     {project.title}
                   </h2>
-                  <p className="font-manrope text-gray-500 text-[13px] md:text-[14px] leading-relaxed mb-5 md:mb-6 max-w-[520px]">
+                  <p className="font-manrope text-gray-500 text-[13px] md:text-[12px] lg:text-[13px] xl:text-[14px] leading-relaxed mb-5 md:mb-6 max-w-[520px]">
                     {project.description}
                   </p>
 
@@ -157,13 +157,13 @@ export default function ProjectList({
 
                 <div className="border-t border-gray-200 mb-5 md:mb-6" />
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-                  <div className="flex gap-10 md:gap-20">
-                    <div>
+                <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between gap-4 xl:gap-6">
+                  <div className="flex gap-8 md:gap-10 xl:gap-14">
+                    <div className="min-w-[90px]">
                       <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-1">
                         YEAR
                       </p>
-                      <p className="font-manrope text-[14px] text-[#2A2A28] font-medium">
+                      <p className="font-manrope text-[13px] text-[#2A2A28] font-medium leading-snug">
                         {project.year}
                       </p>
                     </div>
@@ -171,15 +171,15 @@ export default function ProjectList({
                       <p className="text-[10px] tracking-[0.15em] text-gray-400 font-grotesk mb-1">
                         ROLE
                       </p>
-                      <p className="font-manrope text-[14px] text-[#2A2A28] font-medium">
+                      <p className="font-manrope text-[13px] text-[#2A2A28] font-medium leading-snug">
                         {project.roles.join(", ")}
                       </p>
                     </div>
                   </div>
 
-                  <Link href={`${basePath}/${project.slug}`}>
+                  <Link href={`${basePath}/${project.slug}`} className="self-end">
                     <motion.div
-                      className="flex items-center gap-3 border border-gray-300 px-8 md:px-12 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-pointer w-full sm:w-auto justify-center"
+                      className="flex items-center gap-3 border border-gray-300 px-8 md:px-10 py-3 text-xs tracking-widest font-grotesk text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-pointer w-auto"
                       whileHover="hovered"
                     >
                       SEE

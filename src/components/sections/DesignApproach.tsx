@@ -7,10 +7,10 @@ export default function DesignApproach() {
     <section className="bg-[#2a2a28] text-white overflow-hidden">
       <div className="flex flex-col md:flex-row items-stretch min-h-auto md:min-h-[520px]">
         {/* Top / Left — Text */}
-        <div className="flex flex-col justify-center px-5 md:pl-[calc((100vw-1400px)/2+30px)] md:pr-24 py-14 md:py-24 w-full md:w-[50%] md:flex-shrink-0">
+        <div className="flex flex-col justify-center px-5 md:px-12 lg:px-16 xl:pl-[calc((100vw-1400px)/2+30px)] xl:pr-24 py-14 md:py-20 w-full md:w-[48%] lg:w-[50%] md:flex-shrink-0">
           {/* Title */}
           <motion.h2
-            className="text-[36px] md:text-[52px] font-medium font-code leading-tight mb-5 md:mb-6"
+            className="text-[36px] md:text-[42px] lg:text-[52px] font-medium font-code leading-tight mb-5 md:mb-6"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

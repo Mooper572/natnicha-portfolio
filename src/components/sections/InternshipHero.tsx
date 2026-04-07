@@ -14,7 +14,7 @@ export default function InternshipHero() {
       </motion.p>
 
       <motion.h1
-        className="font-code text-[36px] md:text-[56px] font-medium text-[#2A2A28] leading-tight mb-4"
+        className="font-code text-[36px] md:text-[44px] lg:text-[56px] font-medium text-[#2A2A28] leading-tight mb-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.15 }}
