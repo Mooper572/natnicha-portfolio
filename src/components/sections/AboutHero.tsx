@@ -108,9 +108,9 @@ export default function AboutHero() {
           {/* Social Icons */}
           <motion.div variants={itemVariants} className="flex gap-3 mb-6 md:mb-8">
             {[
-              { Icon: FaLinkedinIn, size: 14, label: "LinkedIn", href: "#" },
-              { Icon: SiLine, size: 17, label: "Line", href: "#" },
-              { Icon: FaInstagram, size: 18, label: "Instagram", href: "#" },
+              { Icon: FaLinkedinIn, size: 14, label: "LinkedIn", href: "https://www.linkedin.com/in/natnicha-inkongngnam-75672a401" },
+              { Icon: SiLine, size: 17, label: "Line", href: "https://line.me/ti/p/~line_id_gumosud" },
+              { Icon: FaInstagram, size: 18, label: "Instagram", href: "https://instagram.com/sal._mo" },
             ].map(({ Icon, size, label, href }) => (
               <a
                 key={label}

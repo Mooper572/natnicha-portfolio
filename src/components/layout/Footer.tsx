@@ -72,7 +72,7 @@ export default function Footer() {
           {/* Social icons */}
           <div className="flex gap-3">
             <a
-              href="#"
+              href="https://www.linkedin.com/in/natnicha-inkongngnam-75672a401"
               aria-label="LinkedIn"
               style={{ color: "#9ca3af", textDecoration: "none" }}
               className="w-9 h-9 border border-gray-600 rounded-full flex items-center justify-center hover:bg-white hover:border-white hover:text-[#2a2a28] transition-all duration-300"
@@ -80,7 +80,7 @@ export default function Footer() {
               <FaLinkedinIn size={14} />
             </a>
             <a
-              href="#"
+              href="https://line.me/ti/p/~line_id_gumosud"
               aria-label="Line"
               style={{ color: "#9ca3af", textDecoration: "none" }}
               className="w-9 h-9 border border-gray-600 rounded-full flex items-center justify-center hover:bg-white hover:border-white hover:text-[#2a2a28] transition-all duration-300"
@@ -88,7 +88,7 @@ export default function Footer() {
               <SiLine size={16} />
             </a>
             <a
-              href="#"
+              href="https://instagram.com/sal._mo"
               aria-label="Instagram"
               style={{ color: "#9ca3af", textDecoration: "none" }}
               className="w-9 h-9 border border-gray-600 rounded-full flex items-center justify-center hover:bg-white hover:border-white hover:text-[#2a2a28] transition-all duration-300"

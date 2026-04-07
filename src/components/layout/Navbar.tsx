@@ -16,29 +16,48 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const lastY = useRef(0);
   const mobileOpenRef = useRef(false);
+  const navigatingRef = useRef(false);
+  const pendingSectionRef = useRef<string | null>(null); // ← เพิ่ม: เก็บ section ที่รอ scroll
   const pathname = usePathname();
   const router = useRouter();
 
-  // Keep ref in sync with state so scroll handler can read it without stale closure
   useEffect(() => {
     mobileOpenRef.current = mobileOpen;
-    // When menu opens, force navbar visible and reset lastY to prevent jump
     if (mobileOpen) {
       setVisible(true);
       lastY.current = window.scrollY;
     }
   }, [mobileOpen]);
 
+  // ← แก้: หลัง pathname เปลี่ยน ให้ scroll ไป pendingSection
   useEffect(() => {
     lastY.current = 0;
     setVisible(true);
     setMobileOpen(false);
+
+    if (pendingSectionRef.current) {
+      const section = pendingSectionRef.current;
+      pendingSectionRef.current = null;
+
+      setTimeout(() => {
+        if (section === "#home") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          const el = document.querySelector(section);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }
+        navigatingRef.current = false;
+        lastY.current = window.scrollY;
+      }, 100);
+    } else {
+      navigatingRef.current = false;
+    }
   }, [pathname]);
 
   useEffect(() => {
     const handler = () => {
-      // Never hide navbar while mobile menu is open
       if (mobileOpenRef.current) return;
+      if (navigatingRef.current) return;
       const currentY = window.scrollY;
       if (currentY < 10) setVisible(true);
       else if (currentY > lastY.current) setVisible(false);
@@ -59,7 +78,10 @@ export default function Navbar() {
 
     if (section) {
       if (pathname !== "/") {
-        router.push(`/${section}`);
+        // ← แก้: เก็บ section ไว้ใน ref แล้ว navigate ไป "/"
+        navigatingRef.current = true;
+        pendingSectionRef.current = section;
+        router.push("/");
       } else {
         if (section === "#home") {
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -71,7 +93,10 @@ export default function Navbar() {
       return;
     }
 
-    router.push(href);
+    if (pathname !== href) {
+      navigatingRef.current = true;
+      router.push(href);
+    }
   };
 
   return (
@@ -154,23 +179,23 @@ export default function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto px-5 lg:px-10 pb-5 pt-2">
           <div className="flex flex-col gap-1 border-t border-gray-100 pt-2">
-          {/* STATUS badge - mobile/tablet */}
-          <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#666666] bg-gray-100 border border-gray-200 font-grotesk mb-2 w-fit">
-            <span className="relative flex items-center justify-center w-2.5 h-2.5 radar-modern">
-              <span className="radar-core w-1.5 h-1.5 rounded-full bg-green-500"></span>
-            </span>
-            <span className="tracking-wide">[STATUS: READY]</span>
-          </div>
-          {navLinks.map((link) => (
-            <a
-              key={link.href + link.label}
-              href={link.section ?? link.href}
-              onClick={(e) => handleNavClick(e, link.href, link.section)}
-              className="text-xs tracking-[0.15em] py-3 border-b border-gray-100 font-grotesk text-[#666666] hover:text-black transition-colors duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
+            {/* STATUS badge - mobile/tablet */}
+            <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#666666] bg-gray-100 border border-gray-200 font-grotesk mb-2 w-fit">
+              <span className="relative flex items-center justify-center w-2.5 h-2.5 radar-modern">
+                <span className="radar-core w-1.5 h-1.5 rounded-full bg-green-500"></span>
+              </span>
+              <span className="tracking-wide">[STATUS: READY]</span>
+            </div>
+            {navLinks.map((link) => (
+              <a
+                key={link.href + link.label}
+                href={link.section ?? link.href}
+                onClick={(e) => handleNavClick(e, link.href, link.section)}
+                className="text-xs tracking-[0.15em] py-3 border-b border-gray-100 font-grotesk text-[#666666] hover:text-black transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
