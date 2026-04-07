@@ -2,12 +2,13 @@ import DetailRenderer from "@/components/sections/DetailRenderer";
 import { internships } from "@/lib";
 import { notFound } from "next/navigation";
 
-export default function InternshipDetailPage({
+export default async function InternshipDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const project = internships.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const project = internships.find((p) => p.slug === slug);
 
   if (!project) return notFound();
 

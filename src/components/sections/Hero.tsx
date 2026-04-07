@@ -4,7 +4,6 @@ import {
   motion,
   useAnimationFrame,
   useMotionValue,
-  AnimatePresence,
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
@@ -148,6 +147,7 @@ export default function Hero() {
 
   const x = useMotionValue(0);
   const [width, setWidth] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
   const [speed, setSpeed] = useState(60);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -165,14 +165,25 @@ export default function Hero() {
   useEffect(() => {
     if (rowRef.current) {
       const fullWidth = rowRef.current.scrollWidth;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWidth(filter === "ALL" ? fullWidth / 2 : fullWidth);
     }
   }, [filtered, filter]);
 
+  // Track container width via ResizeObserver to avoid ref access during render
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    setContainerWidth(el.offsetWidth);
+    const ro = new ResizeObserver(() => setContainerWidth(el.offsetWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   useAnimationFrame((_, delta) => {
     if (isDragging || filter !== "ALL") return;
 
-    let moveBy = (speed * delta) / 1000;
+    const moveBy = (speed * delta) / 1000;
     let next = x.get() - moveBy;
 
     if (next <= -width) {
@@ -267,9 +278,9 @@ export default function Hero() {
             dragConstraints={
               filter === "ALL"
                 ? { left: -width, right: 0 }
-                : {
+                 : {
                     left: -Math.max(
-                      width - (containerRef.current?.offsetWidth || 0),
+                      width - containerWidth,
                       0,
                     ),
                     right: 0,

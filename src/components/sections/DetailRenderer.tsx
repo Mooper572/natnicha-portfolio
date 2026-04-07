@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Paintbrush2, Terminal, Layers } from "lucide-react";
-import { Project } from "@/lib/types";
+import { Project, Section, Stat } from "@/lib/types";
 import { Lightbox } from "./Lightbox"; // ← import Lightbox
 
 // ================= CATEGORY ICON MAP =================
@@ -142,7 +142,7 @@ function ImageSlideshow({ images }: { images: string[] }) {
 }
 
 // ================= MOBILE SECTION COMPONENT =================
-function MobileSection({ section }: { section: any }) {
+function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
   const images = section.images ?? (section.src ? [section.src] : []);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -278,7 +278,7 @@ function MobileSection({ section }: { section: any }) {
 
             {section.stats && section.stats.length > 0 && (
               <div className="flex flex-wrap gap-8 md:gap-16">
-                {section.stats.map((stat: any, idx: number) => (
+                {section.stats.map((stat: Stat, idx: number) => (
                   <div key={idx}>
                     <p className="font-code text-[32px] text-[#2A2A28] mb-1">
                       {stat.value}

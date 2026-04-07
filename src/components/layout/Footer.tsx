@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { SiLine } from "react-icons/si";
@@ -45,14 +46,14 @@ export default function Footer() {
         {/* Top row */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 border-b border-gray-700 pb-8">
           {/* Logo */}
-          <a
+          <Link
             href="/"
-            onClick={(e) => handleNavClick(e, "/", "#home")}
+            onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, "/", "#home")}
             style={{ textDecoration: "none" }}
             className="text-[16px] font-semibold tracking-wide text-white font-manrope"
           >
             NATNICHA.MO
-          </a>
+          </Link>
 
           {/* Nav links */}
           <div className="flex flex-wrap gap-x-6 gap-y-3 md:gap-10">

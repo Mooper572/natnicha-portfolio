@@ -7,10 +7,12 @@ export default function Collaborate() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [lastSent, setLastSent] = useState(0);
 
-  const sendEmail = (e: any) => {
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
 
-    if (e.target.company.value) return;
+    const honeypot = form.elements.namedItem("company") as HTMLInputElement | null;
+    if (honeypot?.value) return;
 
     const now = Date.now();
     if (now - lastSent < 10000) {
@@ -25,12 +27,12 @@ export default function Collaborate() {
       .sendForm(
         "service_9gjwr7d",
         "template_0aoyqvb",
-        e.target,
+        form,
         "fIhM2iFPs-zeUCh4i",
       )
       .then(() => {
         setStatus("success");
-        e.target.reset();
+        form.reset();
         setTimeout(() => setStatus("idle"), 2500);
       })
       .catch(() => {

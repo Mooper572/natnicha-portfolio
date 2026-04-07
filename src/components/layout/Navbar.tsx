@@ -24,6 +24,7 @@ export default function Navbar() {
   useEffect(() => {
     mobileOpenRef.current = mobileOpen;
     if (mobileOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true);
       lastY.current = window.scrollY;
     }
@@ -32,6 +33,7 @@ export default function Navbar() {
   // ← แก้: หลัง pathname เปลี่ยน ให้ scroll ไป pendingSection
   useEffect(() => {
     lastY.current = 0;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisible(true);
     setMobileOpen(false);
 

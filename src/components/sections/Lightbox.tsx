@@ -159,7 +159,7 @@ export function Lightbox({
         offsetAtDragStart.current = { x: offset.x, y: offset.y };
         const now = Date.now();
         if (now - lastTap.current < 300) {
-          isZoomed ? resetTransform() : setScale(2.5);
+          if (isZoomed) { resetTransform(); } else { setScale(2.5); }
         }
         lastTap.current = now;
       }
