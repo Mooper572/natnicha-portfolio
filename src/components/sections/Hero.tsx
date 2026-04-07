@@ -13,7 +13,7 @@ type FilterType = "ALL" | "INTERNSHIP" | "PROJECTS";
 const projects = [
   {
     id: 1,
-    src: "/p1.png",
+    src: "/p1.webp",
     alt: "Zoo Interactive Map",
     title: "Zoo Interactive Map",
     category: "PROJECTS" as FilterType,
@@ -21,7 +21,7 @@ const projects = [
   },
   {
     id: 2,
-    src: "/p2.png",
+    src: "/p2.webp",
     alt: "Zoo Interactive Map",
     title: "Zoo Interactive Map",
     category: "PROJECTS" as FilterType,
@@ -29,7 +29,7 @@ const projects = [
   },
   {
     id: 3,
-    src: "/p3.png",
+    src: "/p3.webp",
     alt: "Zoo Interactive Map",
     title: "Zoo Interactive Map",
     category: "PROJECTS" as FilterType,
@@ -37,7 +37,7 @@ const projects = [
   },
   {
     id: 4,
-    src: "/p4.png",
+    src: "/p4.webp",
     alt: "Trinity Website",
     title: "Trinity Website",
     category: "INTERNSHIP" as FilterType,
@@ -45,7 +45,7 @@ const projects = [
   },
   {
     id: 5,
-    src: "/p5.png",
+    src: "/p5.webp",
     alt: "Trinity Website",
     title: "Trinity Website",
     category: "INTERNSHIP" as FilterType,
@@ -53,7 +53,7 @@ const projects = [
   },
   {
     id: 6,
-    src: "/p6.png",
+    src: "/p6.webp",
     alt: "Trinity Website",
     title: "Trinity Website",
     category: "INTERNSHIP" as FilterType,
@@ -61,7 +61,7 @@ const projects = [
   },
   {
     id: 7,
-    src: "/p7.png",
+    src: "/p7.webp",
     alt: "Internship Dashboard",
     title: "Internship Dashboard",
     category: "INTERNSHIP" as FilterType,
@@ -69,7 +69,7 @@ const projects = [
   },
   {
     id: 8,
-    src: "/p8.png",
+    src: "/p8.webp",
     alt: "Internship Dashboard",
     title: "Internship Dashboard",
     category: "INTERNSHIP" as FilterType,
@@ -77,7 +77,7 @@ const projects = [
   },
   {
     id: 9,
-    src: "/p9.png",
+    src: "/p9.webp",
     alt: "Internship Dashboard",
     title: "Internship Dashboard",
     category: "INTERNSHIP" as FilterType,
@@ -85,7 +85,7 @@ const projects = [
   },
   {
     id: 10,
-    src: "/p10.png",
+    src: "/p10.webp",
     alt: "Hertz Rental Application",
     title: "Hertz Rental Application",
     category: "PROJECTS" as FilterType,
@@ -93,7 +93,7 @@ const projects = [
   },
   {
     id: 11,
-    src: "/p11.png",
+    src: "/p11.webp",
     alt: "Just Watch Website",
     title: "Just Watch Website",
     category: "PROJECTS" as FilterType,
@@ -101,7 +101,7 @@ const projects = [
   },
   {
     id: 12,
-    src: "/p12.png",
+    src: "/p12.webp",
     alt: "Just Watch Website",
     title: "Just Watch Website",
     category: "PROJECTS" as FilterType,
@@ -109,7 +109,7 @@ const projects = [
   },
   {
     id: 13,
-    src: "/p13.png",
+    src: "/p13.webp",
     alt: "Jum Pop Application",
     title: "Jum Pop Application",
     category: "PROJECTS" as FilterType,
@@ -208,12 +208,12 @@ export default function Hero() {
       >
         <div className="relative w-[120px] h-[120px] md:w-[180px] md:h-[180px] rounded-full overflow-hidden">
           <Image
-            src="/profile.png"
+            src="/profile.webp"
             alt="Natnicha Inkongngam profile photo"
             fill
+            priority
             sizes="(max-width: 768px) 120px, 180px"
             className="object-cover scale-125 object-[center_90%]"
-            priority
           />
         </div>
       </motion.div>

@@ -52,7 +52,7 @@ export default function AboutHero() {
         {/* Top / Left — Photo */}
         <div className="w-full md:w-[360px] lg:w-[460px] md:flex-shrink-0 relative md:min-h-[480px] lg:min-h-[560px]">
           <Image
-            src="/profile.png"
+            src="/profile.webp"
             alt="Natnicha Inkongngam"
             width={460}
             height={600}

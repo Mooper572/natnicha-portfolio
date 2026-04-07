@@ -57,7 +57,7 @@ export default function DesignApproach() {
             className="w-full h-full"
           >
             <Image
-              src="/design-approach.png"
+              src="/design-approach.webp"
               alt="Design approach showcase"
               fill
               className="object-cover object-center"

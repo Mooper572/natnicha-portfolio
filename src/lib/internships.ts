@@ -7,7 +7,7 @@ export const internships: Project[] = [
     title: "Internship Platform",
     description:
       "A full-stack internship recruitment platform designed to improve candidate credibility and hiring workflows. The system features AI-powered resume parsing with autofill, along with verification for education, skills, and projects. It includes role-based access, profile tracking, and AI-driven job matching to support recruitment decision-making.",
-    image: "/p7.png",
+    image: "/p7.webp",
     imageScale: true,
     techStack: ["Figma", "Typescript", "Tailwind CSS", "Node.js", "PostgreSQL"],
     year: "2026",
@@ -24,19 +24,19 @@ export const internships: Project[] = [
       {
         type: "image",
         images: [
-          "/internship/internship-platform-website/1.png",
-          "/internship/internship-platform-website/2.png",
-          "/internship/internship-platform-website/3.png",
-          "/internship/internship-platform-website/4.png",
+          "/internship/internship-platform-website/1.webp",
+          "/internship/internship-platform-website/2.webp",
+          "/internship/internship-platform-website/3.webp",
+          "/internship/internship-platform-website/4.webp",
         ],
       },
       {
         type: "mobile",
         images: [
-          "/internship/internship-platform-website/5.png",
-          "/internship/internship-platform-website/6.png",
-          "/internship/internship-platform-website/7.png",
-          "/internship/internship-platform-website/8.png",
+          "/internship/internship-platform-website/5.webp",
+          "/internship/internship-platform-website/6.webp",
+          "/internship/internship-platform-website/7.webp",
+          "/internship/internship-platform-website/8.webp",
         ],
         title: "AI-Powered Recruitment Platform",
         description:
@@ -84,7 +84,7 @@ export const internships: Project[] = [
     title: "Trinity Website",
     description:
       "A corporate website redesigned with a focus on UX/UI and responsive frontend development. The interface was improved for better usability, accessibility, and consistency across all pages and devices. Implemented with modern frontend practices, it enhances user experience and aligns with business needs.",
-    image: "/p4.png",
+    image: "/p4.webp",
     imageScale: true,
     techStack: ["Figma", "Typescript", "React", "Tailwind CSS"],
     year: "2026",
@@ -101,19 +101,19 @@ export const internships: Project[] = [
       {
         type: "image",
         images: [
-          "/internship/trinity-website/1.png",
-          "/internship/trinity-website/2.png",
-          "/internship/trinity-website/3.png",
-          "/internship/trinity-website/4.png",
+          "/internship/trinity-website/1.webp",
+          "/internship/trinity-website/2.webp",
+          "/internship/trinity-website/3.webp",
+          "/internship/trinity-website/4.webp",
         ],
       },
       {
         type: "mobile",
         images: [
-          "/internship/trinity-website/5.png",
-          "/internship/trinity-website/6.png",
-          "/internship/trinity-website/7.png",
-          "/internship/trinity-website/8.png",
+          "/internship/trinity-website/5.webp",
+          "/internship/trinity-website/6.webp",
+          "/internship/trinity-website/7.webp",
+          "/internship/trinity-website/8.webp",
         ],
         title: "Redesigning a Corporate Website",
         description:
@@ -158,7 +158,7 @@ export const internships: Project[] = [
     title: "Pine Script",
     description:
       "A trading signal system developed using Pine Script in TradingView, focusing on trend analysis and alert generation. The system identifies buy/sell signals with multi-timeframe analysis and dynamic data visualization. It integrates webhook functionality to send real-time alerts to Telegram for monitoring and decision support.",
-    image: "/p14.png",
+    image: "/p14.webp",
     imageScale: true,
     techStack: ["PINE SCRIPT", "TRADING VIEW", "WEBHOOK", "TELEGRAM API"],
     year: "2026",
@@ -174,7 +174,7 @@ export const internships: Project[] = [
       },
       {
         type: "image",
-        src: "/internship/pine-script/1.png",
+        src: "/internship/pine-script/1.webp",
       },
       {
         type: "features",

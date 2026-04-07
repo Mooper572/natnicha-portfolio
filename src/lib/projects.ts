@@ -7,7 +7,7 @@ export const projects: Project[] = [
         title: "Zoo Interactive Map",
         description:
             "An interactive map web application designed with a strong focus on UX/UI and full-stack development. The system provides GPS navigation, location filtering, and real-time updates to enhance user experience and accessibility. Designed in Figma and developed as a responsive application, it bridges intuitive design with functional system implementation.",
-        image: "/p1.png",
+        image: "/p1.webp",
         imageScale: true,
         techStack: ["Figma", "JavaScript", "Node.js", "MySQL", "Google Maps API"],
         year: "Aug 2025 - Dec 2025",
@@ -24,19 +24,19 @@ export const projects: Project[] = [
             {
                 type: "image",
                 images: [
-                    "/projects/zoo-interactive-map/1.png",
-                    "/projects/zoo-interactive-map/2.png",
-                    "/projects/zoo-interactive-map/3.png",
-                    "/projects/zoo-interactive-map/4.png",
+                    "/projects/zoo-interactive-map/1.webp",
+                    "/projects/zoo-interactive-map/2.webp",
+                    "/projects/zoo-interactive-map/3.webp",
+                    "/projects/zoo-interactive-map/4.webp",
                 ],
             },
             {
                 type: "mobile",
                 images: [
-                    "/projects/zoo-interactive-map/5.png",
-                    "/projects/zoo-interactive-map/6.png",
-                    "/projects/zoo-interactive-map/7.png",
-                    "/projects/zoo-interactive-map/8.png",
+                    "/projects/zoo-interactive-map/5.webp",
+                    "/projects/zoo-interactive-map/6.webp",
+                    "/projects/zoo-interactive-map/7.webp",
+                    "/projects/zoo-interactive-map/8.webp",
                 ],
                 title: "From Design to Development",
                 description:
@@ -81,7 +81,7 @@ export const projects: Project[] = [
         title: "Hertz Rental Application",
         description:
             "A mobile-first car rental application designed with a user-centered approach, focusing on UX/UI and functionality. The system supports browsing, booking, and rental management through intuitive user flows and a clean interface design. Implemented with Flutter, it provides a responsive and user-friendly experience.",
-        image: "/p10.png",
+        image: "/p10.webp",
         imageScale: false,
         techStack: ["Figma", "Flutter"],
         year: "Jan 2024 - Apr 2024 ",
@@ -98,10 +98,10 @@ export const projects: Project[] = [
             {
                 type: "image",
                 images: [
-                    "/projects/hertz-rental-application/1.png",
-                    "/projects/hertz-rental-application/2.png",
-                    "/projects/hertz-rental-application/3.png",
-                    "/projects/hertz-rental-application/4.png",
+                    "/projects/hertz-rental-application/1.webp",
+                    "/projects/hertz-rental-application/2.webp",
+                    "/projects/hertz-rental-application/3.webp",
+                    "/projects/hertz-rental-application/4.webp",
                 ],
             },
             {
@@ -141,7 +141,7 @@ export const projects: Project[] = [
         title: "Just Match Website",
         description:
             "A movie rental web application designed to support multiple user roles with a focus on UX/UI and functionality. The system enables browsing, search, and content management through structured user flows and clear interface design. Developed with frontend and backend integration, it provides a responsive and user-friendly experience.",
-        image: "/p12.png",
+        image: "/p12.webp",
         imageScale: false,
         techStack: ["Figma", "JavaScript", "Node.js", "MySQL"],
         year: "Jan 2023 - Apr 2023",
@@ -158,9 +158,9 @@ export const projects: Project[] = [
             {
                 type: "image",
                 images: [
-                    "/projects/just-watch-website/1.png",
-                    "/projects/just-watch-website/2.png",
-                    "/projects/just-watch-website/3.png",
+                    "/projects/just-watch-website/1.webp",
+                    "/projects/just-watch-website/2.webp",
+                    "/projects/just-watch-website/3.webp",
                 ],
             },
             {
@@ -202,7 +202,7 @@ export const projects: Project[] = [
         title: "Jum Pop Application",
         description:
             "A mystery box (gacha) application designed in Figma, focusing on UX/UI and a mobile-first user experience. The design includes e-commerce workflows such as ordering and shipping, with clearly defined user flows. It also features structured admin interfaces for product, payment, and order management across different roles.",
-        image: "/p13.png",
+        image: "/p13.webp",
         imageScale: false,
         techStack: ["Figma"],
         year: "2024",
@@ -219,10 +219,10 @@ export const projects: Project[] = [
             {
                 type: "image",
                 images: [
-                    "/projects/jum-pop-application/1.png",
-                    "/projects/jum-pop-application/2.png",
-                    "/projects/jum-pop-application/3.png",
-                    "/projects/jum-pop-application/4.png",
+                    "/projects/jum-pop-application/1.webp",
+                    "/projects/jum-pop-application/2.webp",
+                    "/projects/jum-pop-application/3.webp",
+                    "/projects/jum-pop-application/4.webp",
                 ],
             },
             {
