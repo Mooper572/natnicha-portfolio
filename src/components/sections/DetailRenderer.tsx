@@ -21,6 +21,7 @@ function ImageSlideshow({ images }: { images: string[] }) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [loaded, setLoaded] = useState<boolean[]>(() => images.map((_, i) => i === 0));
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -56,7 +57,28 @@ function ImageSlideshow({ images }: { images: string[] }) {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="relative w-full h-[220px] sm:h-[380px] md:h-[600px] overflow-hidden rounded-sm">
+      {/* Preload all slideshow images */}
+      <div className="hidden">
+        {images.map((src, idx) => (
+          <Image
+            key={idx}
+            src={src}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 1400px"
+            onLoad={() =>
+              setLoaded((prev) => {
+                const next = [...prev];
+                next[idx] = true;
+                return next;
+              })
+            }
+          />
+        ))}
+      </div>
+
+      <div className="relative w-full h-[220px] sm:h-[380px] md:h-[600px] overflow-hidden rounded-sm bg-gray-100">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
             key={current}
@@ -72,11 +94,24 @@ function ImageSlideshow({ images }: { images: string[] }) {
             }}
             onClick={() => setLightboxIndex(current)}
           >
+            {/* Skeleton shimmer while image loading */}
+            {!loaded[current] && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+            )}
             <Image
               src={images[current]}
               alt=""
               fill
+              priority={current === 0}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 1400px"
               className="object-cover"
+              onLoad={() =>
+                setLoaded((prev) => {
+                  const next = [...prev];
+                  next[current] = true;
+                  return next;
+                })
+              }
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </motion.div>
@@ -145,6 +180,7 @@ function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [loaded, setLoaded] = useState<boolean[]>(() => images.map((_, i) => i === 0));
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -178,6 +214,27 @@ function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
+      {/* Preload all mobile slideshow images */}
+      <div className="hidden">
+        {images.map((src: string, idx: number) => (
+          <Image
+            key={idx}
+            src={src}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 580px"
+            onLoad={() =>
+              setLoaded((prev) => {
+                const next = [...prev];
+                next[idx] = true;
+                return next;
+              })
+            }
+          />
+        ))}
+      </div>
+
       <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center">
         {/* Image slideshow */}
         <div className="flex-shrink-0 flex flex-col items-center gap-4 w-full md:w-auto">
@@ -197,11 +254,24 @@ function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
                 exit="exit"
                 transition={slideTransition}
               >
+                {/* Skeleton shimmer while loading */}
+                {!loaded[current] && (
+                  <div className="absolute inset-0 bg-[#4a4a48] animate-pulse" />
+                )}
                 <Image
                   src={images[current]}
                   alt=""
                   fill
+                  priority={current === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 380px, 580px"
                   className="object-cover"
+                  onLoad={() =>
+                    setLoaded((prev) => {
+                      const next = [...prev];
+                      next[current] = true;
+                      return next;
+                    })
+                  }
                 />
               </motion.div>
             </AnimatePresence>
