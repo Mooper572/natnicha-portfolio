@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Paintbrush2, Terminal, Layers } from "lucide-react";
 import { Project } from "@/lib/types";
+import { Lightbox } from "./Lightbox"; // ← import Lightbox
 
 // ================= CATEGORY ICON MAP =================
 function CategoryIcon({ title }: { title: string }) {
@@ -19,6 +20,7 @@ function CategoryIcon({ title }: { title: string }) {
 function ImageSlideshow({ images }: { images: string[] }) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -60,7 +62,7 @@ function ImageSlideshow({ images }: { images: string[] }) {
         <AnimatePresence mode="sync" custom={direction}>
           <motion.div
             key={current}
-            className="absolute inset-0"
+            className="absolute inset-0 cursor-zoom-in"
             style={{ zIndex: 1 }}
             custom={direction}
             variants={variants}
@@ -70,6 +72,7 @@ function ImageSlideshow({ images }: { images: string[] }) {
             transition={{
               x: { type: "spring", stiffness: 200, damping: 26 },
             }}
+            onClick={() => setLightboxIndex(current)}
           >
             <Image
               src={images[current]}
@@ -89,15 +92,19 @@ function ImageSlideshow({ images }: { images: string[] }) {
         {images.length > 1 && (
           <>
             <button
-              onClick={() =>
-                goTo((current - 1 + images.length) % images.length)
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                goTo((current - 1 + images.length) % images.length);
+              }}
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
             >
               ‹
             </button>
             <button
-              onClick={() => goTo((current + 1) % images.length)}
+              onClick={(e) => {
+                e.stopPropagation();
+                goTo((current + 1) % images.length);
+              }}
               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
             >
               ›
@@ -119,6 +126,17 @@ function ImageSlideshow({ images }: { images: string[] }) {
           />
         ))}
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <Lightbox
+            images={images}
+            startIndex={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 }
@@ -128,6 +146,7 @@ function MobileSection({ section }: { section: any }) {
   const images = section.images ?? (section.src ? [section.src] : []);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -160,7 +179,10 @@ function MobileSection({ section }: { section: any }) {
       <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center">
         {/* Image slideshow */}
         <div className="flex-shrink-0 flex flex-col items-center gap-4 w-full md:w-auto">
-          <div className="relative w-full md:w-[380px] lg:w-[580px] h-[360px] md:h-[460px] lg:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38]">
+          <div
+            className="relative w-full md:w-[380px] lg:w-[580px] h-[360px] md:h-[460px] lg:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38] cursor-zoom-in"
+            onClick={() => setLightboxIndex(current)}
+          >
             <AnimatePresence mode="sync" custom={direction}>
               <motion.div
                 key={current}
@@ -194,15 +216,19 @@ function MobileSection({ section }: { section: any }) {
             {images.length > 1 && (
               <>
                 <button
-                  onClick={() =>
-                    goTo((current - 1 + images.length) % images.length)
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo((current - 1 + images.length) % images.length);
+                  }}
                   className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
                 >
                   ‹
                 </button>
                 <button
-                  onClick={() => goTo((current + 1) % images.length)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo((current + 1) % images.length);
+                  }}
                   className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-sm transition-all duration-200 rounded-full text-white"
                 >
                   ›
@@ -267,6 +293,17 @@ function MobileSection({ section }: { section: any }) {
           </div>
         </div>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <Lightbox
+            images={images}
+            startIndex={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 }
@@ -411,15 +448,12 @@ export default function DetailRenderer({ project }: { project: Project }) {
                 {section.categories
                   ? section.categories.map((cat, idx) => (
                       <div key={idx}>
-                        {/* Header */}
                         <div className="flex items-center gap-3 mb-6 pb-3 border-b border-gray-200">
                           <CategoryIcon title={cat.title} />
                           <p className="text-[14px] font-grotesk tracking-[0.2em] text-[#2A2A28] font-bold uppercase">
                             {cat.title}
                           </p>
                         </div>
-
-                        {/* Items */}
                         <ul className="space-y-3">
                           {cat.items.map((item, iidx) => (
                             <li
@@ -429,7 +463,6 @@ export default function DetailRenderer({ project }: { project: Project }) {
                               <span className="flex-shrink-0 text-[#2D3435] text-[13px] leading-[1.6] font-light">
                                 –
                               </span>
-
                               {item}
                             </li>
                           ))}
