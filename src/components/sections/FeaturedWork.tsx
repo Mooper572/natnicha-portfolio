@@ -155,9 +155,10 @@ export default function FeaturedWork() {
                 <Image
                   src={project.src}
                   alt={project.title}
-                  width={500}
-                  height={300}
-                  className={`w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  priority
+                  className={`object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     project.zoom
                       ? "scale-[1.08] group-hover:scale-[1.15]"
                       : "group-hover:scale-105"

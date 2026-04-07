@@ -23,6 +23,7 @@ export function Lightbox({
   const offsetAtDragStart = useRef({ x: 0, y: 0 });
   const lastTap = useRef(0);
   const lastPinchDist = useRef<number | null>(null);
+  const scaleAtPinchStart = useRef(1);
 
   // Refs for reading latest state inside native listeners
   const isZoomedRef = useRef(false);
@@ -49,6 +50,20 @@ export function Lightbox({
     [current, resetTransform]
   );
 
+  // Lock body scroll (iOS-safe)
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    // iOS Safari: also need to prevent touchmove on body
+    const preventScroll = (e: TouchEvent) => e.preventDefault();
+    document.body.addEventListener("touchmove", preventScroll, { passive: false });
+    return () => {
+      document.body.style.overflow = original;
+      document.body.removeEventListener("touchmove", preventScroll);
+    };
+  }, []);
+
+  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -59,66 +74,37 @@ export function Lightbox({
       if (e.key === "r" || e.key === "0") resetTransform();
     };
     window.addEventListener("keydown", handleKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
-    };
+    return () => window.removeEventListener("keydown", handleKey);
   }, [onClose, resetTransform, images.length]);
 
-  // ── Non-passive wheel + touchmove (both need preventDefault) ──
+  // ── Non-passive wheel (desktop zoom) ──
   useEffect(() => {
     const el = viewportRef.current;
     if (!el) return;
-
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
       const delta = e.deltaY < 0 ? 0.2 : -0.2;
       setScale((prev) => {
         const next = Math.min(Math.max(prev + delta, 1), 6);
-        if (next <= 1) {
-          setOffset({ x: 0, y: 0 });
-          return 1;
-        }
+        if (next <= 1) { setOffset({ x: 0, y: 0 }); return 1; }
         return next;
       });
     };
-
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      if (e.touches.length === 2 && lastPinchDist.current !== null) {
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
-        const dist = Math.hypot(dx, dy);
-        const ratio = dist / lastPinchDist.current;
-        setScale((prev) => Math.min(Math.max(prev * ratio, 1), 6));
-        lastPinchDist.current = dist;
-      } else if (e.touches.length === 1 && isZoomedRef.current) {
-        setOffset({
-          x: offsetAtDragStart.current.x + (e.touches[0].clientX - dragStart.current.x),
-          y: offsetAtDragStart.current.y + (e.touches[0].clientY - dragStart.current.y),
-        });
-      }
-    };
-
     el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-    return () => {
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchmove", onTouchMove);
-    };
-  }, []); // mount/unmount only
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
-  // Mouse drag
+  // Mouse drag (desktop)
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
+      if (!isZoomedRef.current) return;
       e.preventDefault();
       setDragging(true);
       dragStart.current = { x: e.clientX, y: e.clientY };
-      offsetAtDragStart.current = { x: offset.x, y: offset.y };
+      offsetAtDragStart.current = { x: offsetRef.current.x, y: offsetRef.current.y };
     },
-    [offset]
+    []
   );
 
   const handleMouseMove = useCallback(
@@ -134,37 +120,57 @@ export function Lightbox({
 
   const handleMouseUp = useCallback(() => setDragging(false), []);
 
-  // Double click
+  // Double click (desktop zoom)
   const handleDoubleClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      if (isZoomed) {
-        resetTransform();
-      } else {
-        setScale(2.5);
-      }
+      if (isZoomed) { resetTransform(); } else { setScale(2.5); }
     },
     [isZoomed, resetTransform]
   );
 
-  // Touch start + double-tap
+  // ── Touch handlers (mobile) ──
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       if (e.touches.length === 2) {
+        // Pinch start
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         lastPinchDist.current = Math.hypot(dx, dy);
+        scaleAtPinchStart.current = scaleRef.current;
       } else if (e.touches.length === 1) {
         dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        offsetAtDragStart.current = { x: offset.x, y: offset.y };
+        offsetAtDragStart.current = { x: offsetRef.current.x, y: offsetRef.current.y };
+        // Double-tap detection
         const now = Date.now();
         if (now - lastTap.current < 300) {
-          if (isZoomed) { resetTransform(); } else { setScale(2.5); }
+          if (isZoomedRef.current) { resetTransform(); } else { setScale(2.5); }
         }
         lastTap.current = now;
       }
     },
-    [offset, isZoomed, resetTransform]
+    [resetTransform]
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length === 2 && lastPinchDist.current !== null) {
+        // Pinch zoom
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.hypot(dx, dy);
+        const ratio = dist / lastPinchDist.current;
+        setScale((prev) => Math.min(Math.max(prev * ratio, 1), 6));
+        lastPinchDist.current = dist;
+      } else if (e.touches.length === 1 && isZoomedRef.current) {
+        // Pan when zoomed
+        setOffset({
+          x: offsetAtDragStart.current.x + (e.touches[0].clientX - dragStart.current.x),
+          y: offsetAtDragStart.current.y + (e.touches[0].clientY - dragStart.current.y),
+        });
+      }
+    },
+    []
   );
 
   const handleTouchEnd = useCallback(() => {
@@ -180,6 +186,7 @@ export function Lightbox({
   return (
     <motion.div
       className="fixed inset-0 z-[100] flex items-center justify-center"
+      style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -206,8 +213,8 @@ export function Lightbox({
       {/* Hint */}
       <div className="absolute bottom-[52px] left-1/2 -translate-x-1/2 z-20 font-grotesk text-[10px] tracking-widest text-white/20 select-none pointer-events-none">
         {isZoomed
-          ? "double-click to reset"
-          : "scroll or double-click to zoom · drag to pan"}
+          ? "double-tap to reset"
+          : "pinch or double-tap to zoom"}
       </div>
 
       {/* Close */}
@@ -221,16 +228,19 @@ export function Lightbox({
       {/* Image viewport */}
       <div
         ref={viewportRef}
-        className="relative w-[90vw] max-w-5xl h-[80vh] z-10 overflow-hidden"
-        style={{ cursor: isZoomed ? (dragging ? "grabbing" : "grab") : "zoom-in" }}
+        className="relative w-[92vw] max-w-5xl h-[75vh] z-10 overflow-hidden"
+        style={{
+          cursor: isZoomed ? (dragging ? "grabbing" : "grab") : "zoom-in",
+          touchAction: isZoomed ? "none" : "pan-y",
+        }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         onDoubleClick={handleDoubleClick}
         onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        // onWheel and onTouchMove removed — handled by native listeners
       >
         <AnimatePresence mode="sync" custom={direction}>
           <motion.div
@@ -242,7 +252,7 @@ export function Lightbox({
             animate="center"
             exit="exit"
             transition={{
-              x: { type: "spring", stiffness: 220, damping: 28 },
+              x: { type: "tween", ease: "easeInOut", duration: 0.35 },
               opacity: { duration: 0.2 },
             }}
           >
@@ -262,6 +272,7 @@ export function Lightbox({
                 fill
                 className="object-contain"
                 draggable={false}
+                priority
               />
             </div>
           </motion.div>

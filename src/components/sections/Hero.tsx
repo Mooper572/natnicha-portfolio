@@ -313,7 +313,8 @@ export default function Hero() {
                       src={project.src}
                       alt={project.alt}
                       fill
-                      sizes="420px" 
+                      sizes="420px"
+                      priority
                       className={`object-cover pointer-events-none select-none ${
                         project.zoom ? zoomConfig.zoom : ""
                       } ${project.zoom ? "translate-y-10" : ""}`}

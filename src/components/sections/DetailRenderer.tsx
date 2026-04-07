@@ -40,13 +40,11 @@ function ImageSlideshow({ images }: { images: string[] }) {
     enter: (dir: number) => ({
       x: dir > 0 ? "100%" : "-100%",
       opacity: 1,
-      scale: 1,
     }),
-    center: { x: 0, opacity: 1, scale: 1 },
+    center: { x: 0, opacity: 1 },
     exit: (dir: number) => ({
       x: dir > 0 ? "-100%" : "100%",
       opacity: 1,
-      scale: 1,
     }),
   };
 
@@ -59,18 +57,18 @@ function ImageSlideshow({ images }: { images: string[] }) {
       transition={{ duration: 0.6 }}
     >
       <div className="relative w-full h-[220px] sm:h-[380px] md:h-[600px] overflow-hidden rounded-sm">
-        <AnimatePresence mode="sync" custom={direction}>
+        <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
             key={current}
             className="absolute inset-0 cursor-zoom-in"
-            style={{ zIndex: 1 }}
+            style={{ zIndex: 1, willChange: "transform" }}
             custom={direction}
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{
-              x: { type: "spring", stiffness: 200, damping: 26 },
+              x: { type: "tween", ease: "easeInOut", duration: 0.4 },
             }}
             onClick={() => setLightboxIndex(current)}
           >
@@ -78,7 +76,7 @@ function ImageSlideshow({ images }: { images: string[] }) {
               src={images[current]}
               alt=""
               fill
-              className="object-cover scale-110"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </motion.div>
@@ -168,6 +166,10 @@ function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
     exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 1 }),
   };
 
+  const slideTransition = {
+    x: { type: "tween" as const, ease: "easeInOut" as const, duration: 0.4 },
+  };
+
   return (
     <motion.section
       className="max-w-[1400px] mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-2"
@@ -183,25 +185,23 @@ function MobileSection({ section }: { section: Section & { type: "mobile" } }) {
             className="relative w-full md:w-[380px] lg:w-[580px] h-[360px] md:h-[460px] lg:h-[620px] overflow-hidden rounded-sm bg-[#3a3a38] cursor-zoom-in"
             onClick={() => setLightboxIndex(current)}
           >
-            <AnimatePresence mode="sync" custom={direction}>
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
                 key={current}
                 className="absolute inset-0"
-                style={{ zIndex: 1 }}
+                style={{ zIndex: 1, willChange: "transform" }}
                 custom={direction}
                 variants={slideVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 200, damping: 26 },
-                }}
+                transition={slideTransition}
               >
                 <Image
                   src={images[current]}
                   alt=""
                   fill
-                  className="object-cover scale-125"
+                  className="object-cover"
                 />
               </motion.div>
             </AnimatePresence>
