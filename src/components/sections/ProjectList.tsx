@@ -113,7 +113,7 @@ export default function ProjectList({
               style={dashedBorder}
             >
               {/* Image */}
-              <div className="relative w-full md:w-[300px] lg:w-[380px] xl:w-[500px] 2xl:w-[620px] md:flex-shrink-0 h-[220px] md:h-auto self-stretch overflow-hidden group">
+              <div className="relative w-full md:w-[300px] lg:w-[460px] xl:w-[500px] 2xl:w-[620px] md:flex-shrink-0 h-[220px] md:h-auto self-stretch overflow-hidden group">
                 <Image
                   src={project.image}
                   alt={project.title}

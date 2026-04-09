@@ -44,7 +44,7 @@ export default function Collaborate() {
   return (
     <section
       id="contact"
-      className="bg-white py-16 md:py-24 scroll-mt-[280px] md:scroll-mt-[100px]"
+      className="bg-white py-16 md:py-24"
     >
       <div style={{ maxWidth: "1400px" }} className="mx-auto px-5 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] lg:grid-cols-2 gap-10 md:gap-16 items-start">

@@ -11,13 +11,27 @@ const navLinks = [
   { label: "[CONTACT]", href: "/", section: "#contact" },
 ];
 
+const scrollToSection = (section: string) => {
+  if (section === "#home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    const el = document.querySelector(section) as HTMLElement | null;
+    if (el) {
+      const navbar = document.querySelector("nav") as HTMLElement | null;
+      const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 0;
+      const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight + 70;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }
+};
+
 export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const lastY = useRef(0);
   const mobileOpenRef = useRef(false);
   const navigatingRef = useRef(false);
-  const pendingSectionRef = useRef<string | null>(null); // ← เพิ่ม: เก็บ section ที่รอ scroll
+  const pendingSectionRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -30,24 +44,18 @@ export default function Navbar() {
     }
   }, [mobileOpen]);
 
-  // ← แก้: หลัง pathname เปลี่ยน ให้ scroll ไป pendingSection
   useEffect(() => {
     lastY.current = 0;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisible(true);
-    setMobileOpen(false);
+    setTimeout(() => setMobileOpen(false), 50);
 
     if (pendingSectionRef.current) {
       const section = pendingSectionRef.current;
       pendingSectionRef.current = null;
 
       setTimeout(() => {
-        if (section === "#home") {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          const el = document.querySelector(section);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }
+        scrollToSection(section);
         navigatingRef.current = false;
         lastY.current = window.scrollY;
       }, 100);
@@ -70,6 +78,12 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  useEffect(() => {
+  const handler = () => setMobileOpen(false);
+  window.addEventListener("closeMobileMenu", handler);
+  return () => window.removeEventListener("closeMobileMenu", handler);
+}, []);
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -80,17 +94,11 @@ export default function Navbar() {
 
     if (section) {
       if (pathname !== "/") {
-        // ← แก้: เก็บ section ไว้ใน ref แล้ว navigate ไป "/"
         navigatingRef.current = true;
         pendingSectionRef.current = section;
         router.push("/");
       } else {
-        if (section === "#home") {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          const el = document.querySelector(section);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }
+        scrollToSection(section);
       }
       return;
     }

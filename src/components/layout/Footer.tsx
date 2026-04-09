@@ -1,4 +1,5 @@
 "use client";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
@@ -12,9 +13,35 @@ const footerLinks = [
   { label: "[CONTACT]", href: "/", section: "#contact" },
 ];
 
+const scrollToSection = (section: string) => {
+  if (section === "#home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    const el = document.querySelector(section) as HTMLElement | null;
+    if (el) {
+      const navbar = document.querySelector("nav") as HTMLElement | null;
+      const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 0;
+      const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight + 70;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }
+};
+
 export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
+  const pendingSectionRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (pendingSectionRef.current) {
+      const section = pendingSectionRef.current;
+      pendingSectionRef.current = null;
+
+      setTimeout(() => {
+        scrollToSection(section);
+      }, 100);
+    }
+  }, [pathname]);
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -25,14 +52,14 @@ export default function Footer() {
 
     if (section) {
       if (pathname !== "/") {
-        router.push(`/${section}`);
+        pendingSectionRef.current = section;
+        router.push("/");
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent("closeMobileMenu"));
+        }, 200);
       } else {
-        if (section === "#home") {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          const el = document.querySelector(section);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }
+        window.dispatchEvent(new CustomEvent("closeMobileMenu"));
+        scrollToSection(section);
       }
       return;
     }
